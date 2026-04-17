@@ -6,10 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Common\" />
-    <Folder Include="Behaviors\" />
-    <Folder Include="Features\Auth\Commands\" />
-  </ItemGroup>
-
 </Project>
