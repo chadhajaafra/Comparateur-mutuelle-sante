@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.13.35818.85
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "API\API.csproj", "{F490E031-261A-4A0C-9B80-35AD209E8729}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Comparateur.API", "API\Comparateur.API.csproj", "{F490E031-261A-4A0C-9B80-35AD209E8729}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{9A96D958-6005-4FB8-B026-A8A2CD47713B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Comparateur.Domain", "Domain\Comparateur.Domain.csproj", "{9A96D958-6005-4FB8-B026-A8A2CD47713B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{0C4D6C86-3A5F-4FDB-B991-19748AC75DDE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Comparateur.Application", "Application\Comparateur.Application.csproj", "{0C4D6C86-3A5F-4FDB-B991-19748AC75DDE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{9BCA3285-006F-4CC3-B19A-51C9496D832F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Comparateur.Infrastructure", "Infrastructure\Comparateur.Infrastructure.csproj", "{9BCA3285-006F-4CC3-B19A-51C9496D832F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
