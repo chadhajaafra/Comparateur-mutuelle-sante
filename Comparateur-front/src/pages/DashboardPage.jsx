@@ -1,37 +1,67 @@
-﻿import { useAuth } from "../hooks/useAuth";
-import { useNavigate } from 'react-router-dom';
+﻿import { MdPeople, MdHealthAndSafety, MdDescription, MdAssignment } from 'react-icons/md';
+import './DashboardPage.css';
+
+const stats = [
+    { label: 'Utilisateurs', value: '1 284', trend: '+12%', icon: <MdPeople size={22} />, color: '#2563eb' },
+    { label: 'Mutuelles', value: '48', trend: '+3', icon: <MdHealthAndSafety size={22} />, color: '#16a34a' },
+    { label: 'Devis générés', value: '327', trend: '+18%', icon: <MdDescription size={22} />, color: '#d97706' },
+    { label: 'Souscriptions', value: '89', trend: '+7%', icon: <MdAssignment size={22} />, color: '#7c3aed' },
+];
+
+const mutuelles = [
+    { nom: 'Harmonie Santé', garantie: 'Complète', prix: '89 €', statut: 'Actif' },
+    { nom: 'MGEN Plus', garantie: 'Standard', prix: '64 €', statut: 'Actif' },
+    { nom: 'Malakoff Pro', garantie: 'Premium', prix: '124 €', statut: 'Nouveau' },
+    { nom: 'Swiss Life', garantie: 'Eco', prix: '42 €', statut: 'En cours' },
+];
+
+const statusClass = { 'Actif': 'badge-success', 'Nouveau': 'badge-info', 'En cours': 'badge-warning' };
 
 export default function DashboardPage() {
-    const { user, logout } = useAuth();
-    const navigate = useNavigate();
-
-    const handleLogout = async () => {
-        await logout();
-        navigate('/login');
-    };
-
     return (
-        <div style={{ minHeight: '100vh', background: '#f8fafc', fontFamily: 'DM Sans, sans-serif' }}>
-            <header style={{ background: 'white', borderBottom: '1px solid #e2e8f0', padding: '1rem 2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div style={{ fontFamily: 'Sora, sans-serif', fontWeight: 700, fontSize: '1.2rem', color: '#0f172a' }}>
-                    ⚕ MutuelleComparateur
+        <div>
+            <p className="page-title">Bonjour 👋</p>
+            <p className="page-sub">Voici un aperçu de votre plateforme aujourd'hui.</p>
+
+            {/* Stats */}
+            <div className="dash-stats">
+                {stats.map(s => (
+                    <div key={s.label} className="card dash-stat">
+                        <div className="dash-stat__icon" style={{ background: s.color + '18', color: s.color }}>
+                            {s.icon}
+                        </div>
+                        <div>
+                            <div className="dash-stat__label">{s.label}</div>
+                            <div className="dash-stat__value">{s.value}</div>
+                            <div className="dash-stat__trend">{s.trend} ce mois</div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+
+            {/* Table */}
+            <div className="card">
+                <div className="dash-table-head">
+                    <span className="dash-table-title">Dernières mutuelles</span>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                    <span style={{ color: '#64748b', fontSize: '0.9rem' }}>Bonjour, <strong style={{ color: '#0f172a' }}>{user?.firstName}</strong></span>
-                    <button
-                        onClick={handleLogout}
-                        style={{ padding: '0.5rem 1rem', border: '1.5px solid #e2e8f0', borderRadius: '8px', background: 'transparent', cursor: 'pointer', fontSize: '0.85rem', color: '#64748b' }}
-                    >
-                        Déconnexion
-                    </button>
-                </div>
-            </header>
-            <main style={{ padding: '3rem 2rem', textAlign: 'center' }}>
-                <h1 style={{ fontFamily: 'Sora, sans-serif', fontSize: '2rem', color: '#0f172a', marginBottom: '1rem' }}>
-                    Tableau de bord
-                </h1>
-                <p style={{ color: '#64748b' }}>Authentification réussie ✅ — Rôle : <strong>{user?.role}</strong></p>
-            </main>
+                <table className="dash-table">
+                    <thead>
+                        <tr>
+                            <th>Mutuelle</th><th>Garantie</th><th>Prix / mois</th><th>Statut</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {mutuelles.map(m => (
+                            <tr key={m.nom}>
+                                <td>{m.nom}</td>
+                                <td>{m.garantie}</td>
+                                <td>{m.prix}</td>
+                                <td><span className={`badge ${statusClass[m.statut]}`}>{m.statut}</span></td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 }
