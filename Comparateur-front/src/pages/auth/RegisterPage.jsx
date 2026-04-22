@@ -1,198 +1,150 @@
-import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 import { Link, useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useState } from 'react';
+import { User, Building2, Shield } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
-import './auth.css';
+import AuthLayout from '../../components/layout/AuthLayout';
+import { Button } from '../../components/ui/Button';
+import { Input } from '../../components/ui/Input';
+
+const step1Schema = z.object({
+    firstName: z.string().min(1, 'Pr√©nom requis'),
+    lastName: z.string().min(1, 'Nom requis'),
+    email: z.string().email('Email invalide'),
+});
+
+const step2Schema = z.object({
+    password: z.string()
+        .min(8, 'Minimum 8 caract√®res')
+        .regex(/[A-Z]/, 'Au moins une majuscule')
+        .regex(/[0-9]/, 'Au moins un chiffre'),
+    confirmPassword: z.string(),
+}).refine(d => d.password === d.confirmPassword, {
+    message: 'Les mots de passe ne correspondent pas',
+    path: ['confirmPassword'],
+});
 
 const ROLES = [
-    { value: 1, label: 'Particulier', desc: 'Je cherche une mutuelle pour moi' },
-    { value: 2, label: 'Assureur', desc: 'Je propose des offres de mutuelle' },
+    { value: 1, label: 'Particulier', desc: 'Je cherche une mutuelle', icon: User },
+    { value: 2, label: 'Assureur', desc: 'Je propose des offres', icon: Building2 },
+    { value: 3, label: 'Admin', desc: 'Gestion de la plateforme', icon: Shield },
 ];
 
 export default function RegisterPage() {
-    const { register } = useAuth();
+    const { register: authRegister } = useAuth();
     const navigate = useNavigate();
     const [step, setStep] = useState(1);
-    const [form, setForm] = useState({
-        firstName: '', lastName: '', email: '',
-        password: '', confirmPassword: '', role: 1,
-    });
-    const [errors, setErrors] = useState({});
+    const [role, setRole] = useState(1);
+    const [step1Data, setStep1Data] = useState(null);
     const [serverError, setServerError] = useState('');
-    const [loading, setLoading] = useState(false);
 
-    const validateStep1 = () => {
-        const e = {};
-        if (!form.firstName.trim()) e.firstName = 'PrÈnom requis';
-        if (!form.lastName.trim()) e.lastName = 'Nom requis';
-        if (!form.email) e.email = 'Email requis';
-        else if (!/\S+@\S+\.\S+/.test(form.email)) e.email = 'Email invalide';
-        return e;
-    };
+    const form1 = useForm({ resolver: zodResolver(step1Schema) });
+    const form2 = useForm({ resolver: zodResolver(step2Schema) });
 
-    const validateStep2 = () => {
-        const e = {};
-        if (!form.password) e.password = 'Mot de passe requis';
-        else if (form.password.length < 8) e.password = 'Minimum 8 caractËres';
-        else if (!/[A-Z]/.test(form.password)) e.password = 'Au moins une majuscule';
-        else if (!/[0-9]/.test(form.password)) e.password = 'Au moins un chiffre';
-        if (form.password !== form.confirmPassword) e.confirmPassword = 'Les mots de passe ne correspondent pas';
-        return e;
-    };
+    const onStep1 = (data) => { setStep1Data(data); setStep(2); };
 
-    const handleNext = () => {
-        const errs = validateStep1();
-        if (Object.keys(errs).length) { setErrors(errs); return; }
-        setErrors({});
-        setStep(2);
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const errs = validateStep2();
-        if (Object.keys(errs).length) { setErrors(errs); return; }
-        setLoading(true);
+    const onStep2 = async (data) => {
         setServerError('');
         try {
-            await register({
-                firstName: form.firstName,
-                lastName: form.lastName,
-                email: form.email,
-                password: form.password,
-                role: form.role,
-            });
+            await authRegister({ ...step1Data, password: data.password, role });
             navigate('/dashboard');
         } catch (err) {
-            const data = err.response?.data;
-            if (data?.errors) {
-                const flat = {};
-                Object.entries(data.errors).forEach(([k, v]) => { flat[k.toLowerCase()] = v[0]; });
-                setErrors(flat);
-            } else {
-                setServerError(data?.title || 'Une erreur est survenue.');
-            }
-        } finally {
-            setLoading(false);
+            setServerError(err.response?.data?.title || 'Une erreur est survenue.');
         }
     };
 
-    const handleChange = (e) => {
-        setForm(f => ({ ...f, [e.target.name]: e.target.value }));
-        setErrors(er => ({ ...er, [e.target.name]: '' }));
-    };
+    const hints = [
+        { ok: form2.watch('password')?.length >= 8, label: '8 caract√®res' },
+        { ok: /[A-Z]/.test(form2.watch('password') ?? ''), label: 'Majuscule' },
+        { ok: /[0-9]/.test(form2.watch('password') ?? ''), label: 'Chiffre' },
+    ];
 
     return (
-        <div className="auth-page">
-            <div className="auth-left">
-                <div className="auth-brand">
-                    <span className="brand-icon">?</span>
-                    <span className="brand-name">MutuelleComparateur</span>
-                </div>
-                <div className="auth-hero">
-                    <h1>Rejoignez des milliers d'utilisateurs satisfaits</h1>
-                    <p>Inscription gratuite, sans engagement. Comparez et souscrivez en toute confiance.</p>
-                    <div className="steps-visual">
-                        <div className={`step-dot ${step >= 1 ? 'active' : ''}`}>1</div>
-                        <div className="step-line" />
-                        <div className={`step-dot ${step >= 2 ? 'active' : ''}`}>2</div>
-                    </div>
-                </div>
+        <AuthLayout
+            title={step === 1 ? 'Cr√©er un compte' : 'S√©curisez votre acc√®s'}
+            subtitle={<>D√©j√† inscrit ? <Link to="/login" className="text-blue-600 font-medium hover:underline">Se connecter</Link></>}
+        >
+            {/* Indicateur d'√©tapes */}
+            <div className="flex items-center gap-2 mb-8">
+                {[1, 2].map(s => (
+                    <div key={s} className={`h-1.5 rounded-full transition-all duration-300 ${s === step ? 'flex-1 bg-blue-600' : s < step ? 'flex-1 bg-blue-300' : 'w-8 bg-slate-200'}`} />
+                ))}
+                <span className="text-xs text-slate-400 ml-1">{step}/2</span>
             </div>
 
-            <div className="auth-right">
-                <div className="auth-card">
-                    <div className="auth-card-header">
-                        <h2>{step === 1 ? 'CrÈer un compte' : 'SÈcurisez votre accËs'}</h2>
-                        <p>DÈj‡ inscrit ? <Link to="/login">Se connecter</Link></p>
-                    </div>
+            {serverError && (
+                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+                    className="mb-4 p-3 rounded-lg bg-red-50 border border-red-100 text-red-600 text-sm">
+                    ‚ö† {serverError}
+                </motion.div>
+            )}
 
-                    {serverError && <div className="alert alert-error">{serverError}</div>}
+            <AnimatePresence mode="wait">
+                {step === 1 && (
+                    <motion.form key="step1"
+                        initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}
+                        onSubmit={form1.handleSubmit(onStep1)} className="flex flex-col gap-4">
 
-                    {step === 1 && (
+                        {/* Choix du r√¥le */}
                         <div>
-                            {/* SÈlection du rÙle */}
-                            <div className="role-selector">
-                                {ROLES.map(r => (
-                                    <div
-                                        key={r.value}
-                                        className={`role-card ${form.role === r.value ? 'selected' : ''}`}
-                                        onClick={() => setForm(f => ({ ...f, role: r.value }))}
-                                    >
-                                        <span className="role-label">{r.label}</span>
-                                        <span className="role-desc">{r.desc}</span>
-                                    </div>
-                                ))}
+                            <p className="text-sm font-medium text-slate-700 mb-3">Je suis‚Ä¶</p>
+                            <div className="grid grid-cols-3 gap-2">
+                                {ROLES.map(r => {
+                                    const Icon = r.icon;
+                                    return (
+                                        <button key={r.value} type="button" onClick={() => setRole(r.value)}
+                                            className={`p-3 rounded-xl border text-center transition-all ${role === r.value ? 'border-blue-500 bg-blue-50' : 'border-slate-200 hover:border-slate-300 bg-white'}`}>
+                                            <Icon size={20} className={`mx-auto mb-1 ${role === r.value ? 'text-blue-600' : 'text-slate-400'}`} />
+                                            <div className={`text-xs font-semibold ${role === r.value ? 'text-blue-700' : 'text-slate-700'}`}>{r.label}</div>
+                                            <div className="text-[10px] text-slate-400 leading-tight">{r.desc}</div>
+                                        </button>
+                                    );
+                                })}
                             </div>
-
-                            <div className="field-row">
-                                <div className="field">
-                                    <label>PrÈnom</label>
-                                    <input type="text" name="firstName" value={form.firstName}
-                                        onChange={handleChange} placeholder="Jean"
-                                        className={errors.firstName ? 'error' : ''} />
-                                    {errors.firstName && <span className="field-error">{errors.firstName}</span>}
-                                </div>
-                                <div className="field">
-                                    <label>Nom</label>
-                                    <input type="text" name="lastName" value={form.lastName}
-                                        onChange={handleChange} placeholder="Dupont"
-                                        className={errors.lastName ? 'error' : ''} />
-                                    {errors.lastName && <span className="field-error">{errors.lastName}</span>}
-                                </div>
-                            </div>
-
-                            <div className="field">
-                                <label>Email</label>
-                                <input type="email" name="email" value={form.email}
-                                    onChange={handleChange} placeholder="vous@example.com"
-                                    className={errors.email ? 'error' : ''} />
-                                {errors.email && <span className="field-error">{errors.email}</span>}
-                            </div>
-
-                            <button type="button" className="btn-primary" onClick={handleNext}>
-                                Continuer ?
-                            </button>
                         </div>
-                    )}
 
-                    {step === 2 && (
-                        <form onSubmit={handleSubmit} noValidate>
-                            <div className="field">
-                                <label>Mot de passe</label>
-                                <input type="password" name="password" value={form.password}
-                                    onChange={handleChange} placeholder="ïïïïïïïï"
-                                    className={errors.password ? 'error' : ''} />
-                                {errors.password && <span className="field-error">{errors.password}</span>}
-                                <div className="password-hints">
-                                    {[
-                                        { ok: form.password.length >= 8, label: '8 caractËres minimum' },
-                                        { ok: /[A-Z]/.test(form.password), label: 'Une majuscule' },
-                                        { ok: /[0-9]/.test(form.password), label: 'Un chiffre' },
-                                    ].map(h => (
-                                        <span key={h.label} className={`hint ${h.ok ? 'ok' : ''}`}>
-                                            {h.ok ? '?' : '?'} {h.label}
-                                        </span>
-                                    ))}
-                                </div>
-                            </div>
+                        <div className="grid grid-cols-2 gap-3">
+                            <Input label="Pr√©nom" placeholder="Jean" error={form1.formState.errors.firstName?.message} {...form1.register('firstName')} />
+                            <Input label="Nom" placeholder="Dupont" error={form1.formState.errors.lastName?.message}  {...form1.register('lastName')} />
+                        </div>
+                        <Input label="Email" type="email" placeholder="vous@example.com" error={form1.formState.errors.email?.message} {...form1.register('email')} />
 
-                            <div className="field">
-                                <label>Confirmer le mot de passe</label>
-                                <input type="password" name="confirmPassword" value={form.confirmPassword}
-                                    onChange={handleChange} placeholder="ïïïïïïïï"
-                                    className={errors.confirmPassword ? 'error' : ''} />
-                                {errors.confirmPassword && <span className="field-error">{errors.confirmPassword}</span>}
-                            </div>
+                        <Button type="submit" size="lg" className="w-full mt-2">Continuer ‚Üí</Button>
+                    </motion.form>
+                )}
 
-                            <div className="btn-group">
-                                <button type="button" className="btn-secondary" onClick={() => setStep(1)}>? Retour</button>
-                                <button type="submit" className="btn-primary" disabled={loading}>
-                                    {loading ? <span className="spinner-sm" /> : "S'inscrire"}
-                                </button>
-                            </div>
-                        </form>
-                    )}
-                </div>
-            </div>
-        </div>
+                {step === 2 && (
+                    <motion.form key="step2"
+                        initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}
+                        onSubmit={form2.handleSubmit(onStep2)} className="flex flex-col gap-4">
+
+                        <Input label="Mot de passe" type="password" placeholder="‚Ä¢‚Ä¢‚Ä¢‚Ä¢‚Ä¢‚Ä¢‚Ä¢‚Ä¢"
+                            error={form2.formState.errors.password?.message} {...form2.register('password')} />
+
+                        <div className="flex gap-3">
+                            {hints.map(h => (
+                                <span key={h.label} className={`text-xs flex items-center gap-1 transition-colors ${h.ok ? 'text-green-600' : 'text-slate-400'}`}>
+                                    <span className={`w-3.5 h-3.5 rounded-full border flex items-center justify-center text-[9px] ${h.ok ? 'bg-green-500 border-green-500 text-white' : 'border-slate-300'}`}>
+                                        {h.ok ? '‚úì' : ''}
+                                    </span>
+                                    {h.label}
+                                </span>
+                            ))}
+                        </div>
+
+                        <Input label="Confirmer le mot de passe" type="password" placeholder="‚Ä¢‚Ä¢‚Ä¢‚Ä¢‚Ä¢‚Ä¢‚Ä¢‚Ä¢"
+                            error={form2.formState.errors.confirmPassword?.message} {...form2.register('confirmPassword')} />
+
+                        <div className="grid grid-cols-2 gap-3 mt-2">
+                            <Button type="button" variant="outline" size="lg" onClick={() => setStep(1)}>‚Üê Retour</Button>
+                            <Button type="submit" size="lg" loading={form2.formState.isSubmitting}>S'inscrire</Button>
+                        </div>
+                    </motion.form>
+                )}
+            </AnimatePresence>
+        </AuthLayout>
     );
 }
