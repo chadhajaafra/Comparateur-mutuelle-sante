@@ -1,11 +1,10 @@
-﻿import { MdPeople, MdHealthAndSafety, MdDescription, MdAssignment } from 'react-icons/md';
-import './DashboardPage.css';
+﻿import { LayoutDashboard, Users, ShieldPlus, FileText } from 'lucide-react';
 
 const stats = [
-    { label: 'Utilisateurs', value: '1 284', trend: '+12%', icon: <MdPeople size={22} />, color: '#2563eb' },
-    { label: 'Mutuelles', value: '48', trend: '+3', icon: <MdHealthAndSafety size={22} />, color: '#16a34a' },
-    { label: 'Devis générés', value: '327', trend: '+18%', icon: <MdDescription size={22} />, color: '#d97706' },
-    { label: 'Souscriptions', value: '89', trend: '+7%', icon: <MdAssignment size={22} />, color: '#7c3aed' },
+    { label: 'Utilisateurs', value: '1 284', trend: '+12%', icon: Users, color: 'bg-blue-50 text-blue-600' },
+    { label: 'Mutuelles', value: '48', trend: '+3', icon: ShieldPlus, color: 'bg-green-50 text-green-600' },
+    { label: 'Devis générés', value: '327', trend: '+18%', icon: FileText, color: 'bg-amber-50 text-amber-600' },
+    { label: 'Souscriptions', value: '89', trend: '+7%', icon: LayoutDashboard, color: 'bg-purple-50 text-purple-600' },
 ];
 
 const mutuelles = [
@@ -15,48 +14,62 @@ const mutuelles = [
     { nom: 'Swiss Life', garantie: 'Eco', prix: '42 €', statut: 'En cours' },
 ];
 
-const statusClass = { 'Actif': 'badge-success', 'Nouveau': 'badge-info', 'En cours': 'badge-warning' };
+const statusStyle = {
+    'Actif': 'bg-green-50 text-green-700',
+    'Nouveau': 'bg-blue-50 text-blue-700',
+    'En cours': 'bg-amber-50 text-amber-700',
+};
 
 export default function DashboardPage() {
     return (
         <div>
-            <p className="page-title">Bonjour 👋</p>
-            <p className="page-sub">Voici un aperçu de votre plateforme aujourd'hui.</p>
+            <div className="mb-6">
+                <h2 className="text-xl font-semibold text-slate-900">Bonjour 👋</h2>
+                <p className="text-slate-500 text-sm mt-1">Voici un aperçu de votre plateforme aujourd'hui.</p>
+            </div>
 
             {/* Stats */}
-            <div className="dash-stats">
-                {stats.map(s => (
-                    <div key={s.label} className="card dash-stat">
-                        <div className="dash-stat__icon" style={{ background: s.color + '18', color: s.color }}>
-                            {s.icon}
+            <div className="grid grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
+                {stats.map(({ label, value, trend, icon: Icon, color }) => (
+                    <div key={label} className="bg-white rounded-xl border border-slate-200 p-4 flex items-center gap-4">
+                        <div className={`w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 ${color}`}>
+                            <Icon size={20} />
                         </div>
                         <div>
-                            <div className="dash-stat__label">{s.label}</div>
-                            <div className="dash-stat__value">{s.value}</div>
-                            <div className="dash-stat__trend">{s.trend} ce mois</div>
+                            <p className="text-xs text-slate-500 mb-0.5">{label}</p>
+                            <p className="text-xl font-bold text-slate-900">{value}</p>
+                            <p className="text-xs text-green-600 mt-0.5">{trend} ce mois</p>
                         </div>
                     </div>
                 ))}
             </div>
 
             {/* Table */}
-            <div className="card">
-                <div className="dash-table-head">
-                    <span className="dash-table-title">Dernières mutuelles</span>
+            <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
+                <div className="px-5 py-4 border-b border-slate-100">
+                    <h3 className="text-sm font-semibold text-slate-900">Dernières mutuelles ajoutées</h3>
                 </div>
-                <table className="dash-table">
+                <table className="w-full">
                     <thead>
-                        <tr>
-                            <th>Mutuelle</th><th>Garantie</th><th>Prix / mois</th><th>Statut</th>
+                        <tr className="bg-slate-50 border-b border-slate-100">
+                            {['Mutuelle', 'Garantie', 'Prix / mois', 'Statut'].map(h => (
+                                <th key={h} className="px-5 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide">
+                                    {h}
+                                </th>
+                            ))}
                         </tr>
                     </thead>
                     <tbody>
-                        {mutuelles.map(m => (
-                            <tr key={m.nom}>
-                                <td>{m.nom}</td>
-                                <td>{m.garantie}</td>
-                                <td>{m.prix}</td>
-                                <td><span className={`badge ${statusClass[m.statut]}`}>{m.statut}</span></td>
+                        {mutuelles.map((m, i) => (
+                            <tr key={i} className="border-b border-slate-50 hover:bg-slate-50/50 transition-colors">
+                                <td className="px-5 py-3.5 text-sm font-medium text-slate-900">{m.nom}</td>
+                                <td className="px-5 py-3.5 text-sm text-slate-600">{m.garantie}</td>
+                                <td className="px-5 py-3.5 text-sm font-semibold text-slate-900">{m.prix}</td>
+                                <td className="px-5 py-3.5">
+                                    <span className={`inline-flex px-2.5 py-1 rounded-full text-xs font-medium ${statusStyle[m.statut]}`}>
+                                        {m.statut}
+                                    </span>
+                                </td>
                             </tr>
                         ))}
                     </tbody>
