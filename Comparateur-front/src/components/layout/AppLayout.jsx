@@ -1,15 +1,14 @@
 import { Outlet } from 'react-router-dom';
-import Sidebar from './Sidebar.jsx';
-import Topbar from './Topbar.jsx';
-import './AppLayout.css';
+import Sidebar from './Sidebar';
+import Topbar from './Topbar';
 
 export default function AppLayout() {
     return (
-        <div className="app-layout">
+        <div className="flex min-h-screen bg-slate-50">
             <Sidebar />
-            <div className="app-layout__main">
+            <div className="flex flex-col flex-1 min-w-0">
                 <Topbar />
-                <main className="app-layout__content">
+                <main className="flex-1 p-6 overflow-y-auto">
                     <Outlet />
                 </main>
             </div>
