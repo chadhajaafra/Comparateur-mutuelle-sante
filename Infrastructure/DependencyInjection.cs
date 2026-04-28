@@ -6,6 +6,7 @@ using Domain.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
+using Comparateur.Domain.Interfaces;
 
 namespace Comparateur.Infrastructure
 {
@@ -27,7 +28,9 @@ namespace Comparateur.Infrastructure
             // Services
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IEmailService, EmailService>();
-
+            services.AddScoped<IMutuelleRepository, MutuelleRepository>();
+            services.AddScoped<IOffreRepository,    OffreRepository>();
+            services.AddScoped<IGarantieRepository, GarantieRepository>();
             return services;
         }
     }

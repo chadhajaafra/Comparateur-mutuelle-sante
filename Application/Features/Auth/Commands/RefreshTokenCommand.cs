@@ -34,7 +34,7 @@ namespace Comparateur.Application.Features.Auth.Commands
 
             var userId = Guid.Parse(principal.FindFirst("sub")?.Value ?? throw new UnauthorizedException());
             var user = await _userRepo.GetByIdAsync(userId, ct)
-                ?? throw new NotFoundException(nameof(Domain.Entities.User), userId);
+                ?? throw new NotFoundException(nameof(User), userId);
 
             var storedToken = await _refreshTokenRepo.GetByTokenAsync(request.RefreshToken, ct)
                 ?? throw new UnauthorizedException("Refresh token invalide.");
