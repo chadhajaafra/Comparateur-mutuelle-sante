@@ -16,7 +16,7 @@ namespace Comparateur.Infrastructure.Persistence.Configurations
             builder.HasKey(m => m.Id);
             builder.Property(m => m.Nom).IsRequired().HasMaxLength(200);
             builder.Property(m => m.Description).IsRequired().HasMaxLength(2000);
-            builder.Property(m => m.Logo).HasMaxLength(500);
+            builder.Property(m => m.Logo).HasMaxLength(2000);
             builder.Property(m => m.SiteWeb).HasMaxLength(300);
             builder.HasIndex(m => m.Nom);
             builder.HasIndex(m => m.AssureurId);
