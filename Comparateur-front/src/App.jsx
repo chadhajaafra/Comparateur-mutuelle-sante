@@ -6,6 +6,10 @@ import LoginPage from './pages/auth/LoginPage';
 import RegisterPage from './pages/auth/RegisterPage';
 import { ForgotPasswordPage, ResetPasswordPage } from './pages/auth/PasswordPages';
 import DashboardPage from './pages/DashboardPage';
+import MutuellesPage from './pages/mutuelles/MutuellesPage';
+import MutuelleDetailPage from './pages/mutuelles/MutuelleDetailPage';
+import MutuelleFormPage from './pages/mutuelles/MutuelleFormPage';
+
 
 export default function App() {
     return (
@@ -22,7 +26,9 @@ export default function App() {
                     <Route element={<ProtectedRoute />}>
                         <Route element={<AppLayout />}>
                             <Route path="/dashboard" element={<DashboardPage />} />
-                            <Route path="/mutuelles" element={<div className="page-title">Mutuelles — à venir</div>} />
+                            <Route path="/mutuelles" element={<MutuellesPage />} />
+                            <Route path="/mutuelles/nouvelle" element={<MutuelleFormPage />} />
+                            <Route path="/mutuelles/:id" element={<MutuelleDetailPage />} />
                             <Route path="/comparateur" element={<div className="page-title">Comparateur — à venir</div>} />
                             <Route path="/utilisateurs" element={<div className="page-title">Utilisateurs — à venir</div>} />
                             <Route path="/devis" element={<div className="page-title">Devis — à venir</div>} />
