@@ -15,9 +15,30 @@ namespace Comparateur.API.Controllers
         private readonly ISender _sender;
         public MutuellesController(ISender sender) => _sender = sender;
 
-        private Guid UserId => Guid.Parse(User.FindFirstValue("sub")!);
-        private string UserRole => User.FindFirstValue(ClaimTypes.Role)!;
+        private Guid UserId
+        {
+            get
+            {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
+                if (!Guid.TryParse(userId, out var id))
+                    throw new UnauthorizedAccessException("UserId invalide ou absent");
+
+                return id;
+            }
+        }
+        private string UserRole
+        {
+            get
+            {
+                var role = User.FindFirstValue(ClaimTypes.Role);
+
+                if (string.IsNullOrWhiteSpace(role))
+                    throw new UnauthorizedAccessException("Rôle utilisateur absent");
+
+                return role;
+            }
+        }
         // ── GET api/mutuelles ──────────────────────────────────────────────────
         [HttpGet]
         [AllowAnonymous]
