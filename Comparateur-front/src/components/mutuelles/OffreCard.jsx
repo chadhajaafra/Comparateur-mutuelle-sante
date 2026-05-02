@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom';
+
 const niveauStyle = {
     1: { bar: 'border-l-4 border-green-400 bg-green-50/40', badge: 'bg-green-50 text-green-700', fill: 'bg-green-400' },
     2: { bar: 'border-l-4 border-blue-400 bg-blue-50/40', badge: 'bg-blue-50 text-blue-700', fill: 'bg-blue-400' },
@@ -10,8 +12,9 @@ const typeLabels = {
     Maternite: 'Maternité', MedecineDouces: 'Médecines douces',
 };
 
-export default function OffreCard({ offre }) {
+export default function OffreCard({ offre, canEdit, mutuelleId }) {
     const style = niveauStyle[offre.niveau] ?? niveauStyle[1];
+    const navigate = useNavigate();
 
     return (
         <div className={`rounded-xl border border-slate-200 overflow-hidden ${style.bar}`}>
@@ -52,6 +55,13 @@ export default function OffreCard({ offre }) {
                         </div>
                     ))}
                 </div>
+            )}
+            {canEdit && (
+                <button
+                    onClick={() => navigate(`/mutuelles/${mutuelleId}/offres/${offre.id}/garanties/nouvelle`)}
+                    className="flex items-center gap-1.5 w-full px-4 py-2.5 text-xs text-blue-600 hover:bg-blue-50 transition-colors border-t border-slate-100">
+                    <Plus size={13} /> Ajouter une garantie
+                </button>
             )}
         </div>
     );

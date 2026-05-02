@@ -86,7 +86,7 @@ export default function MutuelleDetailPage() {
                     </div>
                 )}
                 {mutuelle.offres?.map(offre => (
-                    <OffreCard key={offre.id} offre={offre} />
+                    <OffreCard key={offre.id} offre={offre} mutuelleId={id} canEdit={canEdit} />
                 ))}
             </div>
         </div>
