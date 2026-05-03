@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { Plus } from "lucide-react";
 
 const niveauStyle = {
     1: { bar: 'border-l-4 border-green-400 bg-green-50/40', badge: 'bg-green-50 text-green-700', fill: 'bg-green-400' },

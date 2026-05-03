@@ -8,6 +8,12 @@ using System.Threading.Tasks;
 
 namespace Comparateur.Application.Features.Offres
 {
+    public record CreateOffreRequest(
+    string Nom,
+    NiveauCouverture Niveau,
+    decimal PrixMensuel,
+    string? Description
+);
     public record OffreDto(
       Guid Id,
       string Nom,

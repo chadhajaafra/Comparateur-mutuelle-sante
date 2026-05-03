@@ -1,4 +1,8 @@
-﻿using Comparateur.Domain.Interfaces;
+﻿using Comparateur.Application.Features.Offres;
+using Comparateur.Domain.Interfaces;
+using Domain.Entities;
+using Domain.Enums;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,4 +21,6 @@ namespace Comparateur.API.Controllers
         public async Task<IActionResult> GetAll(CancellationToken ct)
             => Ok(await _repo.GetAllAsync(ct));
     }
-}
+
+  
+    }
