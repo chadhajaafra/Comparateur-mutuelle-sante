@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import garantieApi from '../api/garantieApi';
 
 export function useGaranties() {
@@ -6,10 +6,9 @@ export function useGaranties() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    useEffect(() => {
+    const fetchData = useCallback(async () => {
         let cancelled = false;
-
-        async function fetchData() {
+        async function load() {
             setLoading(true);
             setError(null);
             try {
@@ -21,10 +20,13 @@ export function useGaranties() {
                 if (!cancelled) setLoading(false);
             }
         }
-
-        fetchData();
+        load();
         return () => { cancelled = true; };
     }, []);
 
-    return { garanties, loading, error };
+    useEffect(() => {
+        fetchData();
+    }, [fetchData]);
+
+    return { garanties, loading, error, refetch: fetchData };
 }
