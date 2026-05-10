@@ -53,7 +53,7 @@ export default function OffreFormPage() {
                     <Input label="Nom de l'offre" placeholder="ex: Formule Eco"
                         error={errors.nom?.message} {...register('nom')} />
 
-                    {/* Niveau */}
+                    {/* Niveau */} 
                     <div className="flex flex-col gap-1.5">
                         <label className="text-sm font-medium text-slate-700">Niveau de couverture</label>
                         <div className="grid grid-cols-3 gap-2">
