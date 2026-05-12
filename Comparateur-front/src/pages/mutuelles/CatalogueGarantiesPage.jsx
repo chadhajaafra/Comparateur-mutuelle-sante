@@ -14,12 +14,12 @@ import garantieApi from '../../api/garantieApi';
 
 // ── Map par valeur numérique (ce que l'API retourne) ───────────────────────
 const TYPES = {
-    1: { label: 'Santé générale', key: 'SanteGenerale', icon: Activity, bg: 'bg-blue-50', text: 'text-blue-700', border: 'border-blue-200' },
-    2: { label: 'Dentaire', key: 'Dentaire', icon: ShieldCheck, bg: 'bg-green-50', text: 'text-green-700', border: 'border-green-200' },
-    3: { label: 'Optique', key: 'Optique', icon: Eye, bg: 'bg-amber-50', text: 'text-amber-700', border: 'border-amber-200' },
-    4: { label: 'Hospitalisation', key: 'Hospitalisation', icon: Building2, bg: 'bg-purple-50', text: 'text-purple-700', border: 'border-purple-200' },
-    5: { label: 'Maternité', key: 'Maternite', icon: Baby, bg: 'bg-pink-50', text: 'text-pink-700', border: 'border-pink-200' },
-    6: { label: 'Médecines douces', key: 'MedecineDouces', icon: Leaf, bg: 'bg-teal-50', text: 'text-teal-700', border: 'border-teal-200' },
+    1: { label: 'Santé générale', key: 'SanteGenerale', icon: Activity, bg: '#eff6ff', color: '#1d4ed8', border: '#bfdbfe' },
+    2: { label: 'Dentaire', key: 'Dentaire', icon: ShieldCheck, bg: '#f0fdf4', color: '#15803d', border: '#bbf7d0' },
+    3: { label: 'Optique', key: 'Optique', icon: Eye, bg: '#fffbeb', color: '#b45309', border: '#fde68a' },
+    4: { label: 'Hospitalisation', key: 'Hospitalisation', icon: Building2, bg: '#faf5ff', color: '#7e22ce', border: '#e9d5ff' },
+    5: { label: 'Maternité', key: 'Maternite', icon: Baby, bg: '#fdf2f8', color: '#be185d', border: '#fbcfe8' },
+    6: { label: 'Médecines douces', key: 'MedecineDouces', icon: Leaf, bg: '#f0fdfa', color: '#0f766e', border: '#99f6e4' },
 };
 
 // Résout le type qu'il soit number ou string
@@ -199,14 +199,15 @@ export default function CatalogueGarantiesPage() {
             )}
 
             {/* Grille */}
+            {/* Grille */}
             {!loading && garanties.length > 0 && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                     {garanties.map(g => {
                         const info = resolveType(g.type);
                         const Icon = info?.icon ?? ShieldCheck;
-                        const bg = info?.bg ?? 'bg-slate-50';
-                        const text = info?.text ?? 'text-slate-600';
-                        const border = info?.border ?? 'border-slate-200';
+                        const bg = info?.bg ?? '#f8fafc';
+                        const color = info?.color ?? '#64748b';
+                        const border = info?.border ?? '#e2e8f0';
 
                         return (
                             <motion.div key={g.id}
@@ -214,21 +215,25 @@ export default function CatalogueGarantiesPage() {
                                 animate={{ opacity: 1, scale: 1 }}
                                 className="bg-white rounded-xl border border-slate-200 p-4 flex items-center gap-3 hover:border-slate-300 transition-all">
 
-                                {/* Icône colorée */}
-                                <div className={`w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 border ${bg} ${text} ${border}`}>
+                                {/* Icône colorée — style inline */}
+                                <div style={{ background: bg, color, border: `1px solid ${border}` }}
+                                    className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0">
                                     <Icon size={20} />
                                 </div>
 
                                 <div className="flex-1 min-w-0">
                                     <div className="text-sm font-semibold text-slate-900 truncate">{g.nom}</div>
-                                    <div className={`text-xs font-medium mt-0.5 ${text}`}>{info?.label ?? g.type}</div>
+                                    <div style={{ color }} className="text-xs font-medium mt-0.5">
+                                        {info?.label ?? g.type}
+                                    </div>
                                     {g.description && (
                                         <div className="text-xs text-slate-400 mt-0.5 truncate">{g.description}</div>
                                     )}
                                 </div>
 
-                                {/* Badge type */}
-                                <span className={`text-[10px] px-2.5 py-1 rounded-full font-medium flex-shrink-0 border ${bg} ${text} ${border}`}>
+                                {/* Badge type — style inline */}
+                                <span style={{ background: bg, color, border: `1px solid ${border}` }}
+                                    className="text-xs px-2.5 py-1 rounded-full font-medium flex-shrink-0">
                                     {info?.label ?? g.type}
                                 </span>
                             </motion.div>
@@ -236,6 +241,7 @@ export default function CatalogueGarantiesPage() {
                     })}
                 </div>
             )}
+          
         </div>
     );
 }
