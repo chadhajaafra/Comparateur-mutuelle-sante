@@ -33,6 +33,7 @@ export default function App() {
                             <Route path="/mutuelles/nouvelle" element={<MutuelleFormPage />} />
                             <Route path="/mutuelles/:id" element={<MutuelleDetailPage />} />
                             <Route path="/mutuelles/:id/offres/nouvelle" element={<OffreFormPage />} />
+                            <Route path="/mutuelles/:id/modifier" element={<MutuelleFormPage />} />
                             <Route path="/mutuelles/:mutuelleId/offres/:offreId/garanties/nouvelle" element={<AddGarantieToOffre />} />
                             <Route path="/garanties" element={<CatalogueGarantiesPage />} />
                             <Route path="/comparateur" element={<div className="page-title">Comparateur — à venir</div>} />
