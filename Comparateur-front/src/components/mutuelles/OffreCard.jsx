@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { Plus } from "lucide-react";
-
+import { Plus, Pencil, Trash2 } from "lucide-react";
 const niveauStyle = {
     1: { bar: 'border-l-4 border-green-400 bg-green-50/40', badge: 'bg-green-50 text-green-700', fill: 'bg-green-400' },
     2: { bar: 'border-l-4 border-blue-400 bg-blue-50/40', badge: 'bg-blue-50 text-blue-700', fill: 'bg-blue-400' },
@@ -13,7 +12,7 @@ const typeLabels = {
     Maternite: 'Maternité', MedecineDouces: 'Médecines douces',
 };
 
-export default function OffreCard({ offre, canEdit, mutuelleId }) {
+export default function OffreCard({ offre, canEdit, onDelete , mutuelleId }) {
     const style = niveauStyle[offre.niveau] ?? niveauStyle[1];
     const navigate = useNavigate();
 
@@ -25,13 +24,34 @@ export default function OffreCard({ offre, canEdit, mutuelleId }) {
                         {niveauLabels[offre.niveau]}
                     </span>
                     <span className="text-sm font-medium text-slate-800">{offre.nom}</span>
+                    {/* Actions */}
+                    {canEdit && (
+                        <div className="flex items-center gap-2">
+
+                            {/* Modifier */}
+                            <button
+                                onClick={() => navigate(`/mutuelles/${mutuelleId}/offres/${offre.id}/modifier`)}
+                                className="p-2 rounded-lg hover:bg-blue-50 text-blue-600 transition"
+                            >
+                                <Pencil size={16} />
+                            </button>
+
+                            {/* Supprimer */}
+                            <button
+                                onClick={() => onDelete(offre.id)}
+                                className="p-2 rounded-lg hover:bg-red-50 text-red-600 transition"
+                            >
+                                <Trash2 size={16} />
+                            </button>
+                        </div>
+                    )}
                 </div>
                 <div className="text-right">
                     <span className="text-lg font-bold text-slate-900">{offre.prixMensuel}€</span>
                     <span className="text-xs text-slate-400">/mois</span>
                 </div>
             </div>
-
+        
             {offre.description && (
                 <p className="px-4 pb-2 text-xs text-slate-500">{offre.description}</p>
             )}

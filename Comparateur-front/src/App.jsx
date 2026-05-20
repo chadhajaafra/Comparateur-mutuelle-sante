@@ -12,6 +12,9 @@ import MutuelleFormPage from './pages/mutuelles/MutuelleFormPage';
 import OffreFormPage from './pages/mutuelles/OffreFormPage';
 import AddGarantieToOffre from './pages/mutuelles/AddGarantieToOffre';
 import CatalogueGarantiesPage from './pages/mutuelles/CatalogueGarantiesPage';
+import MutuelleEditPage from './pages/mutuelles/MutuelleEditPage';  
+import OffreEditPage from './pages/mutuelles/OffreEditPage';  
+
 
 
 export default function App() {
@@ -33,8 +36,9 @@ export default function App() {
                             <Route path="/mutuelles/nouvelle" element={<MutuelleFormPage />} />
                             <Route path="/mutuelles/:id" element={<MutuelleDetailPage />} />
                             <Route path="/mutuelles/:id/offres/nouvelle" element={<OffreFormPage />} />
-                            <Route path="/mutuelles/:id/modifier" element={<MutuelleFormPage />} />
+                            <Route path="/mutuelles/:id/modifier" element={<MutuelleEditPage />} />
                             <Route path="/mutuelles/:mutuelleId/offres/:offreId/garanties/nouvelle" element={<AddGarantieToOffre />} />
+                            <Route path="/mutuelles/:mutuelleId/offres/:offreId/modifier" element={<OffreEditPage />} />
                             <Route path="/garanties" element={<CatalogueGarantiesPage />} />
                             <Route path="/comparateur" element={<div className="page-title">Comparateur — à venir</div>} />
                             <Route path="/utilisateurs" element={<div className="page-title">Utilisateurs — à venir</div>} />
