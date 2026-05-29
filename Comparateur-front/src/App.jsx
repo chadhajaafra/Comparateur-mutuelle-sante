@@ -6,6 +6,16 @@ import LoginPage from './pages/auth/LoginPage';
 import RegisterPage from './pages/auth/RegisterPage';
 import { ForgotPasswordPage, ResetPasswordPage } from './pages/auth/PasswordPages';
 import DashboardPage from './pages/DashboardPage';
+import MutuellesPage from './pages/mutuelles/MutuellesPage';
+import MutuelleDetailPage from './pages/mutuelles/MutuelleDetailPage';
+import MutuelleFormPage from './pages/mutuelles/MutuelleFormPage';
+import OffreFormPage from './pages/mutuelles/OffreFormPage';
+import AddGarantieToOffre from './pages/mutuelles/AddGarantieToOffre';
+import CatalogueGarantiesPage from './pages/mutuelles/CatalogueGarantiesPage';
+import MutuelleEditPage from './pages/mutuelles/MutuelleEditPage';  
+import OffreEditPage from './pages/mutuelles/OffreEditPage';  
+
+
 
 export default function App() {
     return (
@@ -22,7 +32,14 @@ export default function App() {
                     <Route element={<ProtectedRoute />}>
                         <Route element={<AppLayout />}>
                             <Route path="/dashboard" element={<DashboardPage />} />
-                            <Route path="/mutuelles" element={<div className="page-title">Mutuelles — à venir</div>} />
+                            <Route path="/mutuelles" element={<MutuellesPage />} />
+                            <Route path="/mutuelles/nouvelle" element={<MutuelleFormPage />} />
+                            <Route path="/mutuelles/:id" element={<MutuelleDetailPage />} />
+                            <Route path="/mutuelles/:id/offres/nouvelle" element={<OffreFormPage />} />
+                            <Route path="/mutuelles/:id/modifier" element={<MutuelleEditPage />} />
+                            <Route path="/mutuelles/:mutuelleId/offres/:offreId/garanties/nouvelle" element={<AddGarantieToOffre />} />
+                            <Route path="/mutuelles/:mutuelleId/offres/:offreId/modifier" element={<OffreEditPage />} />
+                            <Route path="/garanties" element={<CatalogueGarantiesPage />} />
                             <Route path="/comparateur" element={<div className="page-title">Comparateur — à venir</div>} />
                             <Route path="/utilisateurs" element={<div className="page-title">Utilisateurs — à venir</div>} />
                             <Route path="/devis" element={<div className="page-title">Devis — à venir</div>} />

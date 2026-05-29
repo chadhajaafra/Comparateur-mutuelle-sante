@@ -2,7 +2,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import {
     LayoutDashboard, Users, ShieldPlus, GitCompare,
-    FileText, ClipboardList, Settings, LogOut
+    FileText, ClipboardList, Settings, LogOut, ShieldCheck
 } from 'lucide-react';
 
 const nav = [
@@ -18,6 +18,7 @@ const nav = [
     {
         section: 'Gestion',
         items: [
+            { to: '/garanties', icon: ShieldCheck, label: 'Garanties' },
             { to: '/devis', icon: FileText, label: 'Devis' },
             { to: '/souscriptions', icon: ClipboardList, label: 'Souscriptions' },
         ],
