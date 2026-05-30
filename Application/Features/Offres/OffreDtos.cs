@@ -23,4 +23,10 @@ namespace Comparateur.Application.Features.Offres
       bool IsActive,
       List<OffreGarantieDto> Garanties
   );
+    public record AddGarantieToOffreRequest(
+        Guid GarantieId,
+        int TauxRemboursement,
+        decimal? Plafond,
+        string? Details
+    );
 }

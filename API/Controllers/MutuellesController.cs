@@ -109,8 +109,22 @@ namespace Comparateur.API.Controllers
         // ── POST api/mutuelles/offres/{offreId}/garanties ──────────────────────
         [HttpPost("offres/{offreId:guid}/garanties")]
         [Authorize(Roles = "Assureur,Administrateur")]
-        public async Task<IActionResult> AddGarantie(Guid offreId, AddGarantieToOffreCommand command, CancellationToken ct)
-            => Ok(await _sender.Send(
-                command with { OffreId = offreId, RequestingUserId = UserId, RequestingUserRole = UserRole }, ct));
-    }
+        public async Task<IActionResult> AddGarantie(
+        Guid offreId,
+        AddGarantieToOffreRequest request,
+        CancellationToken ct)
+            {
+                var command = new AddGarantieToOffreCommand(
+                    OffreId: offreId,
+                    GarantieId: request.GarantieId,
+                    TauxRemboursement: request.TauxRemboursement,
+                    Plafond: (int?)request.Plafond,
+                    Details: request.Details,
+                    RequestingUserId: UserId,
+                    RequestingUserRole: UserRole
+                );
+
+                return Ok(await _sender.Send(command, ct));
+            }
+        }
 }
