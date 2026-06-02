@@ -72,7 +72,7 @@ export default function AddGarantieToOffre() {
     };
 
     return (
-        <div className="max-w-2xl">
+        <div >
             {/* Back */}
             <button
                 onClick={() => navigate(`/mutuelles/${mutuelleId}`)}
@@ -145,11 +145,11 @@ export default function AddGarantieToOffre() {
                             </div>
                         )}
 
-                        {/* Liste — même style que CatalogueGarantiesPage */}
+                        {/* Liste Garanties */}
                         {!loading && garanties.length > 0 && (
                             <>
                                 <input type="hidden" {...register('garantieId')} />
-                                <div className="flex flex-col gap-2">
+                                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                                     {garanties.map((g, i) => {
                                         const info = resolveType(g.type);
                                         const Icon = info?.icon ?? ShieldCheck;
@@ -162,60 +162,89 @@ export default function AddGarantieToOffre() {
                                             <motion.button
                                                 key={g.id}
                                                 type="button"
-                                                initial={{ opacity: 0, y: 6 }}
+                                                initial={{ opacity: 0, y: 10 }}
                                                 animate={{ opacity: 1, y: 0 }}
-                                                transition={{ delay: i * 0.03 }}
-                                                onClick={() => setValue('garantieId', g.id, { shouldValidate: true, shouldDirty: true })}
-                                                className="flex items-center gap-3 p-3 rounded-xl transition-all text-left w-full"
+                                                transition={{ delay: i * 0.05 }}
+                                                onClick={() =>
+                                                    setValue('garantieId', g.id, {
+                                                        shouldValidate: true,
+                                                        shouldDirty: true,
+                                                    })
+                                                }
+                                                className="w-full p-5 rounded-2xl text-left transition-all relative overflow-hidden"
                                                 style={{
-                                                    background: isSelected ? bg : '#ffffff',
-                                                    border: `1.5px solid ${isSelected ? color : '#e2e8f0'}`,
-                                                    boxShadow: isSelected ? `0 2px 12px ${color}20` : '0 1px 2px rgba(0,0,0,0.04)',
+                                                    background: '#fff',
+                                                    border: `2px solid ${isSelected ? color : '#e2e8f0'}`,
+                                                    boxShadow: isSelected
+                                                        ? `0 8px 24px ${color}25`
+                                                        : '0 2px 8px rgba(0,0,0,0.05)',
+                                                    minHeight: '120px',
                                                     cursor: 'pointer',
                                                 }}
                                             >
-                                                {/* Icône — identique catalogue */}
-                                                <div
-                                                    className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0"
-                                                    style={{ background: bg, color, border: `1px solid ${border}` }}
-                                                >
-                                                    <Icon size={20} />
-                                                </div>
-
-                                                {/* Texte */}
-                                                <div className="flex-1 min-w-0">
-                                                    <div className="text-sm font-semibold truncate"
-                                                        style={{ color: '#0f172a' }}>
-                                                        {g.nom}
+                                                {/* Check sélection */}
+                                                {isSelected && (
+                                                    <div
+                                                        className="absolute top-3 right-3"
+                                                        style={{ color }}
+                                                    >
+                                                        <CheckCircle2 size={20} />
                                                     </div>
-                                                    {g.description && (
-                                                        <div className="text-xs mt-0.5 truncate"
-                                                            style={{ color: '#94a3b8' }}>
-                                                            {g.description}
-                                                        </div>
-                                                    )}
+                                                )}
+
+                                                <div className="flex items-start gap-4">
+                                                    {/* Icône */}
+                                                    <div
+                                                        className="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0"
+                                                        style={{
+                                                            background: bg,
+                                                            color,
+                                                            border: `1px solid ${border}`,
+                                                        }}
+                                                    >
+                                                        <Icon size={26} />
+                                                    </div>
+
+                                                    {/* Texte */}
+                                                    <div className="flex-1 min-w-0">
+                                                        <h3
+                                                            className="font-bold text-lg truncate"
+                                                            style={{ color: '#0f172a' }}
+                                                        >
+                                                            {g.nom}
+                                                        </h3>
+
+                                                        <p
+                                                            className="text-sm mt-1 truncate"
+                                                            style={{ color }}
+                                                        >
+                                                            {info?.label}
+                                                        </p>
+
+                                                        {g.description && (
+                                                            <p
+                                                                className="text-sm mt-2 line-clamp-2"
+                                                                style={{ color: '#94a3b8' }}
+                                                            >
+                                                                {g.description}
+                                                            </p>
+                                                        )}
+                                                    </div>
                                                 </div>
 
-                                                {/* Badge type — identique catalogue */}
-                                                <span
-                                                    className="text-xs px-2.5 py-1 rounded-full font-medium flex-shrink-0"
-                                                    style={{ background: bg, color, border: `1px solid ${border}` }}
-                                                >
-                                                    {info?.label ?? g.type}
-                                                </span>
-
-                                                {/* Checkmark si sélectionné */}
-                                                <AnimatePresence>
-                                                    {isSelected && (
-                                                        <motion.div
-                                                            initial={{ scale: 0, opacity: 0 }}
-                                                            animate={{ scale: 1, opacity: 1 }}
-                                                            exit={{ scale: 0, opacity: 0 }}
-                                                        >
-                                                            <CheckCircle2 size={18} style={{ color, flexShrink: 0 }} />
-                                                        </motion.div>
-                                                    )}
-                                                </AnimatePresence>
+                                                {/* Badge */}
+                                                <div className="mt-4 flex justify-end">
+                                                    <span
+                                                        className="px-4 py-1 rounded-full text-sm font-medium"
+                                                        style={{
+                                                            background: bg,
+                                                            color,
+                                                            border: `1px solid ${border}`,
+                                                        }}
+                                                    >
+                                                        {info?.label}
+                                                    </span>
+                                                </div>
                                             </motion.button>
                                         );
                                     })}
