@@ -50,11 +50,5 @@ namespace Comparateur.API.Controllers
             return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
         }
 
-        // POST api/offres/{offreId}/garanties
-        [HttpPost("{offreId:guid}/garanties")]
-        [Authorize(Roles = "Assureur,Administrateur")]
-        public async Task<IActionResult> AddGarantie(Guid offreId, AddGarantieToOffreCommand command, CancellationToken ct)
-            => Ok(await _sender.Send(
-                command with { OffreId = offreId, RequestingUserId = UserId, RequestingUserRole = UserRole }, ct));
     }
 }
