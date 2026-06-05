@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Comparateur.Domain.Entities
 {
-    class ComparaisonSession
+    public class ComparaisonSession
     {
         public Guid Id { get; private set; } = Guid.NewGuid();
         public Guid? UserId { get; private set; }          // null = visiteur

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Comparateur.Domain.Entities
 {
-    class ComparaisonItem
+    public class ComparaisonItem
     {
         public Guid Id { get; private set; } = Guid.NewGuid();
         public Guid SessionId { get; private set; }
