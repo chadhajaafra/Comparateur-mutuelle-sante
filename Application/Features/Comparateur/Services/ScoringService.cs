@@ -11,17 +11,13 @@ namespace Comparateur.Application.Features.Comparateur.Services
     public static class ScoringService
     {
         // Score global = 40% prix + 30% niveau + 30% garanties
-        public static int CalculerScore(
-            Offre offre,
-            CritereRechercheDto criteres)
+        public static int CalculerScore(Offre offre, CritereRechercheDto criteres)
         {
             int scorePrix = ScorePrix(offre.PrixMensuel, criteres.BudgetMax);
             int scoreNiveau = ScoreNiveau((int)offre.Niveau, criteres.NiveauSouhaite);
-            int scoreGaranties = ScoreGaranties((ICollection<OffreGarantie>)offre.OffreGaranties, criteres.TypesGarantie);
-
+            int scoreGaranties = ScoreGaranties(offre.OffreGaranties, criteres.TypesGarantie); // OK
             return (int)(scorePrix * 0.4 + scoreNiveau * 0.3 + scoreGaranties * 0.3);
         }
-
         private static int ScorePrix(decimal prix, int? budgetMax)
         {
             if (budgetMax is null) return 70; // neutre si pas de budget
@@ -50,7 +46,7 @@ namespace Comparateur.Application.Features.Comparateur.Services
         }
 
         private static int ScoreGaranties(
-            ICollection<OffreGarantie> garanties,
+        IEnumerable<OffreGarantie> garanties,
             List<int>? typesSouhaites)
         {
             if (typesSouhaites is null or { Count: 0 }) return 70;
@@ -63,6 +59,37 @@ namespace Comparateur.Application.Features.Comparateur.Services
 
         public static int ScorePrixPublic(decimal prix, int? budgetMax) => ScorePrix(prix, budgetMax);
         public static int ScoreNiveauPublic(int niveau, int? souhaite) => ScoreNiveau(niveau, souhaite);
-        public static int ScoreGarantiesPublic(ICollection<OffreGarantie> g, List<int>? types) => ScoreGaranties(g, types);
+        public static int ScoreGarantiesPublic(IEnumerable<OffreGarantie> g, List<int>? types) => ScoreGaranties(g, types);
+        public static OffreScoreeDto MapToScored(Offre o, CritereRechercheDto criteres)
+        {
+            var typesSouhaites = criteres.TypesGarantie ?? new();
+            int scoreTotal = CalculerScore(o, criteres);
+            int scorePrix = ScorePrix(o.PrixMensuel, criteres.BudgetMax);
+            int scoreNiveau = ScoreNiveau((int)o.Niveau, criteres.NiveauSouhaite);
+            int scoreGaranties = ScoreGaranties(o.OffreGaranties, criteres.TypesGarantie);
+
+            return new OffreScoreeDto(
+                Id: o.Id,
+                Nom: o.Nom,
+                Niveau: (int)o.Niveau,
+                NiveauLabel: o.Niveau.ToString(),
+                PrixMensuel: o.PrixMensuel,
+                MutuelleId: o.MutuelleId,
+                MutuelleNom: o.Mutuelle.Nom,
+                MutuelleLogo: o.Mutuelle.Logo,
+                ScoreTotal: scoreTotal,
+                ScorePrix: scorePrix,
+                ScoreNiveau: scoreNiveau,
+                ScoreGaranties: scoreGaranties,
+                Garanties: o.OffreGaranties.Select(og => new GarantieScoreDto(
+                    GarantieId: og.GarantieId,
+                    Nom: og.Garantie.Nom,
+                    Type: og.Garantie.Type.ToString(),
+                    TauxRemboursement: og.TauxRemboursement,
+                    Plafond: og.Plafond,
+                    MatchCritere: typesSouhaites.Contains((int)og.Garantie.Type)
+                )).ToList()
+            );
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Comparateur.Application.Features.Comparateur.Dtos;
 using Comparateur.Application.Features.Comparateur.Queries;
+using Comparateur.Application.Features.Comparateur.Services;
 using Comparateur.Domain.Entities;
 using Comparateur.Domain.Interfaces;
 using Domain.Exceptions;
@@ -108,7 +109,8 @@ namespace Comparateur.Application.Features.Comparateur.Commands
             {
                 var offre = await _offreRepo.GetByIdWithGarantiesAsync(item.OffreId, ct);
                 if (offre is not null)
-                    offresScored.Add(RechercherOffresHandler.MapToScoredStatic(offre, criteres));
+                    offresScored.Add(ScoringService.MapToScored(offre, criteres));
+
             }
 
             return new ComparaisonDetailDto(session.Id, criteres, offresScored);

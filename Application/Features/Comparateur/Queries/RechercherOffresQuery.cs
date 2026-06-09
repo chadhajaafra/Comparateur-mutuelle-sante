@@ -39,7 +39,7 @@ namespace Comparateur.Application.Features.Comparateur.Queries
 
             // Score + tri
             var scorees = offres
-                .Select(o => MapToScored(o, criteres))
+                .Select(o => ScoringService.MapToScored(o, criteres))
                 .OrderByDescending(o => o.ScoreTotal)
                 .ThenBy(o => o.PrixMensuel)
                 .ToList(); 
@@ -47,38 +47,12 @@ namespace Comparateur.Application.Features.Comparateur.Queries
             int total = scorees.Count;
             var items = scorees.Skip((q.Page - 1) * q.PageSize).Take(q.PageSize).ToList();
 
-            return new PagedResult<OffreScoreeDto>(items, total, q.Page, q.PageSize);
-        }
-
-        private static OffreScoreeDto MapToScored(Offre o, CritereRechercheDto criteres)
-        {
-            var typesSouhaites = criteres.TypesGarantie ?? new();
-            int scoreTotal = ScoringService.CalculerScore(o, criteres);
-            int scorePrix = ScoringService.ScorePrixPublic(o.PrixMensuel, criteres.BudgetMax);
-            int scoreNiveau = ScoringService.ScoreNiveauPublic((int)o.Niveau, criteres.NiveauSouhaite);
-            int scoreGaranties = ScoringService.ScoreGarantiesPublic(o.OffreGaranties, criteres.TypesGarantie);
-
-            return new OffreScoreeDto(
-                Id: o.Id,
-                Nom: o.Nom,
-                Niveau: (int)o.Niveau,
-                NiveauLabel: o.Niveau.ToString(),
-                PrixMensuel: o.PrixMensuel,
-                MutuelleId: o.MutuelleId,
-                MutuelleNom: o.Mutuelle.Nom,
-                MutuelleLogo: o.Mutuelle.Logo,
-                ScoreTotal: scoreTotal,
-                ScorePrix: scorePrix,
-                ScoreNiveau: scoreNiveau,
-                ScoreGaranties: scoreGaranties,
-                Garanties: o.OffreGaranties.Select(og => new GarantieScoreDto(
-                    GarantieId: og.GarantieId,
-                    Nom: og.Garantie.Nom,
-                    Type: og.Garantie.Type.ToString(),
-                    TauxRemboursement: og.TauxRemboursement,
-                    Plafond: og.Plafond,
-                    MatchCritere: typesSouhaites.Contains((int)og.Garantie.Type)
-                )).ToList()
+            return new PagedResult<OffreScoreeDto>(
+                items,
+                total,
+                q.Page,
+                q.PageSize,
+                (int)Math.Ceiling((double)total / q.PageSize)  // ← TotalPages
             );
         }
     }
