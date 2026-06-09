@@ -20,6 +20,8 @@ namespace Comparateur.Infrastructure.Persistence
         public DbSet<Offre>        Offres       => Set<Offre>();
         public DbSet<Garantie>     Garanties    => Set<Garantie>();
         public DbSet<OffreGarantie> OffreGaranties => Set<OffreGarantie>();
+        public DbSet<ComparaisonSession> ComparaisonSessions => Set<ComparaisonSession>();
+        public DbSet<ComparaisonItem> ComparaisonItems => Set<ComparaisonItem>();
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
