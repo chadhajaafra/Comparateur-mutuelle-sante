@@ -21,6 +21,7 @@ namespace Comparateur.Domain.Interfaces
 
     public interface IOffreRepository
     {
+        Task<List<Offre>> GetAllActiveWithGarantiesAsync(string? search, int? niveau, List<int>? typesGarantie, CancellationToken ct)
         Task<Offre?> GetByIdAsync(Guid id, CancellationToken ct = default);
         Task<Offre?> GetByIdWithGarantiesAsync(Guid id, CancellationToken ct = default);
         Task<List<Offre>> GetByMutuelleAsync(Guid mutuelleId, CancellationToken ct = default);

@@ -31,6 +31,8 @@ namespace Comparateur.Infrastructure
             services.AddScoped<IMutuelleRepository, MutuelleRepository>();
             services.AddScoped<IOffreRepository,    OffreRepository>();
             services.AddScoped<IGarantieRepository, GarantieRepository>();
+            services.AddScoped<IComparaisonRepository, ComparaisonRepository>();
+
             return services;
         }
     }

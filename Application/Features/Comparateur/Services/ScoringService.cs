@@ -60,5 +60,9 @@ namespace Comparateur.Application.Features.Comparateur.Services
 
             return (int)((double)matchees / typesSouhaites.Count * 100);
         }
+
+        public static int ScorePrixPublic(decimal prix, int? budgetMax) => ScorePrix(prix, budgetMax);
+        public static int ScoreNiveauPublic(int niveau, int? souhaite) => ScoreNiveau(niveau, souhaite);
+        public static int ScoreGarantiesPublic(ICollection<OffreGarantie> g, List<int>? types) => ScoreGaranties(g, types);
     }
 }

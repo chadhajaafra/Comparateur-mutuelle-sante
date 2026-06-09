@@ -83,34 +83,7 @@ namespace Comparateur.Infrastructure.Persistence.Repositories
             => await _ctx.Mutuelles.AnyAsync(m => m.Id == id, ct);
     }
 
-    public class OffreRepository : IOffreRepository
-    {
-        private readonly AppDbContext _ctx;
-        public OffreRepository(AppDbContext ctx) => _ctx = ctx;
-
-        public async Task<Offre?> GetByIdAsync(Guid id, CancellationToken ct = default)
-            => await _ctx.Offres.FindAsync(new object[] { id }, ct);
-
-        public async Task<Offre?> GetByIdWithGarantiesAsync(Guid id, CancellationToken ct = default)
-            => await _ctx.Offres
-                .Include(o => o.OffreGaranties).ThenInclude(og => og.Garantie)
-                .FirstOrDefaultAsync(o => o.Id == id, ct);
-
-        public async Task<List<Offre>> GetByMutuelleAsync(Guid mutuelleId, CancellationToken ct = default)
-            => await _ctx.Offres
-                .Include(o => o.OffreGaranties).ThenInclude(og => og.Garantie)
-                .Where(o => o.MutuelleId == mutuelleId && o.IsActive)
-                .ToListAsync(ct);
-
-        public async Task CreateAsync(Offre offre, CancellationToken ct = default)
-            => await _ctx.Offres.AddAsync(offre, ct);
-
-        public Task UpdateAsync(Offre offre, CancellationToken ct = default)
-        {
-            _ctx.Offres.Update(offre);
-            return Task.CompletedTask;
-        }
-    }
+   
 
     public class GarantieRepository : IGarantieRepository
     {
