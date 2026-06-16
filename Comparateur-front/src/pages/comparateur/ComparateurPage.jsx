@@ -1,13 +1,14 @@
 ﻿// src/pages/comparateur/ComparateurPage.jsx
 import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import {  AnimatePresence } from 'framer-motion';
 import {
     Search, SlidersHorizontal, X, Plus, CheckCircle2,
     ArrowRight, Star, Loader2, ChevronDown
 } from 'lucide-react';
 import comparateurApi from '../../api/comparateurApi';
 import { useComparateur } from '../../hooks/useComparateur';
+import { motion } from 'framer-motion';
 
 const TYPES_GARANTIE = [
     { id: 1, label: 'Santé générale', color: '#1d4ed8', bg: '#eff6ff' },
@@ -172,7 +173,7 @@ function OffreCard({ offre, onAjouter, isAdded, disabled }) {
 
 export default function ComparateurPage() {
     const navigate = useNavigate();
-    const { session, ajouterOffre, retirerOffre, nbOffres, isInSession } = useComparateur();
+    const { ajouterOffre, retirerOffre, nbOffres, isInSession } = useComparateur();
 
     const [results, setResults] = useState(null);
     const [searching, setSearching] = useState(false);

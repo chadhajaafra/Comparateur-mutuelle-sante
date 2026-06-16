@@ -14,6 +14,9 @@ import AddGarantieToOffre from './pages/mutuelles/AddGarantieToOffre';
 import CatalogueGarantiesPage from './pages/mutuelles/CatalogueGarantiesPage';
 import MutuelleEditPage from './pages/mutuelles/MutuelleEditPage';  
 import OffreEditPage from './pages/mutuelles/OffreEditPage';  
+//import ComparateurPage from './pages/comparateur/ComparateurPage';
+import ComparateurPage from './pages/comparateur/ComparateurWizard';
+import ComparaisonResultatPage from './pages/comparateur/ComparaisonResultatPage';
 
 
 
@@ -40,11 +43,12 @@ export default function App() {
                             <Route path="/mutuelles/:mutuelleId/offres/:offreId/garanties/nouvelle" element={<AddGarantieToOffre />} />
                             <Route path="/mutuelles/:mutuelleId/offres/:offreId/modifier" element={<OffreEditPage />} />
                             <Route path="/garanties" element={<CatalogueGarantiesPage />} />
-                            <Route path="/comparateur" element={<div className="page-title">Comparateur — à venir</div>} />
                             <Route path="/utilisateurs" element={<div className="page-title">Utilisateurs — à venir</div>} />
                             <Route path="/devis" element={<div className="page-title">Devis — à venir</div>} />
                             <Route path="/souscriptions" element={<div className="page-title">Souscriptions — à venir</div>} />
                             <Route path="/parametres" element={<div className="page-title">Paramètres — à venir</div>} />
+                            <Route path="/comparateur" element={<ComparateurPage />} />
+                            <Route path="/comparateur/resultat" element={<ComparaisonResultatPage />} />
                         </Route>
                     </Route>
 
