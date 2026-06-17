@@ -12,7 +12,30 @@ const sizes = {
     md: 'h-10 px-4 text-sm',
     lg: 'h-12 px-6 text-base',
 };
-
+export default function PrimaryButton({
+    children,
+    ...props
+}) {
+    return (
+        <button
+            {...props}
+            className="
+                px-6
+                py-3
+                rounded-xl
+                bg-violet-600
+                text-white
+                font-semibold
+                hover:bg-violet-700
+                transition-all
+                disabled:bg-slate-300
+                disabled:cursor-not-allowed
+            "
+        >
+            {children}
+        </button>
+    );
+}
 export function Button({ children, variant = 'primary', size = 'md', className, loading, ...props }) {
     return (
         <button
