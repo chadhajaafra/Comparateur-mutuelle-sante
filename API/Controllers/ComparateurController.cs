@@ -38,20 +38,25 @@ namespace Comparateur.API.Controllers
         [HttpGet("recherche")]
         [AllowAnonymous]
         public async Task<IActionResult> Recherche(
-            [FromQuery] int? budgetMax,
-            [FromQuery] int? niveau,
-            [FromQuery] string? typesGarantie,
-            [FromQuery] string? search,
-            [FromQuery] int page = 1,
-            [FromQuery] int pageSize = 10,
-            CancellationToken ct = default)
+      [FromQuery] int? budgetMax,
+      [FromQuery] int? niveau,
+      [FromQuery] string? typesGarantie,
+      [FromQuery] string? search,
+      [FromQuery] string? couverture,
+      [FromQuery] bool? assureActuellement,
+      [FromQuery] string? codePostal,
+      [FromQuery] int page = 1,
+      [FromQuery] int pageSize = 10,
+      CancellationToken ct = default)
         {
             var types = typesGarantie?
                 .Split(',', StringSplitOptions.RemoveEmptyEntries)
                 .Select(int.Parse).ToList();
 
-            var result = await _sender.Send(
-                new RechercherOffresQuery(budgetMax, niveau, types, search, page, pageSize), ct);
+            var result = await _sender.Send(new RechercherOffresQuery(
+                budgetMax, niveau, types, search,
+                couverture, assureActuellement, codePostal,
+                page, pageSize), ct);
 
             return Ok(result);
         }
