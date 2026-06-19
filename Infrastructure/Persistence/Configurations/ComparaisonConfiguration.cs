@@ -20,6 +20,14 @@ namespace Comparateur.Infrastructure.Persistence.Configurations
             b.HasIndex(s => s.SessionToken);
             b.HasMany(s => s.Items).WithOne(i => i.Session)
              .HasForeignKey(i => i.SessionId).OnDelete(DeleteBehavior.Cascade);
+            b.Property(s => s.Couverture).HasMaxLength(20);
+            b.Property(s => s.Civilite).HasMaxLength(5);
+            b.Property(s => s.DateNaissance).HasMaxLength(10);
+            b.Property(s => s.CodePostal).HasMaxLength(10);
+            b.Property(s => s.Profession).HasMaxLength(100);
+            b.Property(s => s.RegimeSocial).HasMaxLength(100);
+            b.Property(s => s.DateEffet).HasMaxLength(10);
+            b.Property(s => s.PersonnesSupp).HasMaxLength(500);
         }
     }
 
