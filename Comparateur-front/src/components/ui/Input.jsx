@@ -14,18 +14,23 @@ const Input = forwardRef(
                     ref={ref}
                     {...props}
                     className={`
-                    w-full
-                    px-4 py-3
-                    rounded-xl
-                    border border-slate-200
-                    bg-slate-50
-                    focus:border-violet-600
-                    focus:ring-4
-                    focus:ring-violet-100
-                    outline-none
-                    transition-all
-                    ${className}
-                `}
+                                w-full
+                                px-4
+                                py-3
+                                rounded-xl
+                                border
+                                border-slate-200
+                                bg-white/80
+                                backdrop-blur-sm
+                                transition-all
+                                duration-300
+                                hover:border-violet-300
+                                focus:border-violet-500
+                                focus:ring-4
+                                focus:ring-violet-100
+                                outline-none
+                                ${className}
+                            `}
                 />
 
                 {hint}

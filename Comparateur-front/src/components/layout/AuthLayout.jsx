@@ -1,90 +1,115 @@
-import { ShieldCheck, TrendingUp, Star } from 'lucide-react';
-import { motion } from "framer-motion";
+Ôªøimport { motion } from "framer-motion";
 
-const features = [
-    { icon: ShieldCheck, text: '200+ mutuelles comparÈes en temps rÈel' },
-    { icon: TrendingUp, text: '…conomisez jusqu\'‡ 40% sur votre santÈ' },
-    { icon: Star, text: '100% indÈpendant, aucune commission' },
-];
-
-export default function AuthLayout({ children, title, subtitle }) {
+export default function AuthLayout({
+    title,
+    subtitle,
+    children
+}) {
     return (
-        <div className="min-h-screen flex">
+        <div className="
+            relative
+            min-h-screen
+            overflow-hidden
+            bg-gradient-to-br
+            from-slate-50
+            via-white
+            to-violet-50
+            flex
+            items-center
+            justify-center
+            px-4
+            py-10
+        ">
 
-            {/* Panneau gauche */}
-            <div className="hidden lg:flex lg:w-[45%] bg-slate-900 flex-col justify-between p-10 relative overflow-hidden">
-                <div className="absolute inset-0 opacity-5"
-                    style={{ backgroundImage: 'radial-gradient(circle at 20% 50%, #3b82f6 0%, transparent 50%), radial-gradient(circle at 80% 20%, #6366f1 0%, transparent 40%)' }} />
+            {/* Decorative blobs */}
+            <div className="
+                absolute
+                top-[-100px]
+                left-[-100px]
+                w-96
+                h-96
+                bg-violet-300
+                rounded-full
+                blur-3xl
+                opacity-20
+            " />
 
-                {/* Logo */}
-                <div className="flex items-center gap-3 relative z-10">
-                    <div className="w-9 h-9 bg-blue-600 rounded-xl flex items-center justify-center">
-                        <span className="text-white font-bold text-lg">M</span>
-                    </div>
-                    <div>
-                        <div className="text-white font-semibold text-sm">MutuelleComparateur</div>
-                        <div className="text-slate-500 text-xs">Plateforme de comparaison</div>
-                    </div>
-                </div>
+            <div className="
+                absolute
+                bottom-[-100px]
+                right-[-100px]
+                w-96
+                h-96
+                bg-purple-300
+                rounded-full
+                blur-3xl
+                opacity-20
+            " />
 
-                {/* Hero */}
-                <div className="relative z-10">
-                    <h1 className="text-white text-3xl font-bold leading-tight mb-4">
-                        Trouvez la mutuelle<br />
-                        <span className="text-blue-400">idÈale pour vous</span>
-                    </h1>
-                    <p className="text-slate-400 text-sm leading-relaxed mb-8">
-                        Comparez des centaines d'offres en quelques secondes et Èconomisez sur votre santÈ.
-                    </p>
-                    <div className="flex flex-col gap-4">
-                        {features.map(({ icon: Icon, text }) => (
-                            <div key={text} className="flex items-center gap-3">
-                                <div className="w-8 h-8 rounded-lg bg-blue-600/20 flex items-center justify-center flex-shrink-0">
-                                    <Icon size={15} className="text-blue-400" />
-                                </div>
-                                <span className="text-slate-300 text-sm">{text}</span>
-                            </div>
-                        ))}
-                    </div>
-                </div>
+            <motion.div
+                initial={{ opacity: 0, y: 25 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="relative w-full max-w-md"
+            >
 
-                {/* Stats */}
-                <div className="flex gap-8 relative z-10">
-                    {[['200+', 'Mutuelles'], ['98%', 'Satisfaction'], ['0Ä', 'Commission']].map(([val, lab]) => (
-                        <div key={lab}>
-                            <div className="text-white font-bold text-xl">{val}</div>
-                            <div className="text-slate-500 text-xs">{lab}</div>
-                        </div>
-                    ))}
-                </div>
-            </div>
-
-            {/* Panneau droit */}
-            <div className="flex-1 flex items-center justify-center p-6 bg-white">
-                <motion.div
-                    className="w-full max-w-md"
-                    initial={{ opacity: 0, y: 16 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.35, ease: 'easeOut' }}
+                <div
+                    className="
+                    bg-white/80
+                    backdrop-blur-md
+                    rounded-3xl
+                    border
+                    border-white/50
+                    p-8
+                    shadow-[0_20px_50px_rgba(124,58,237,0.12)]
+                "
                 >
-                    {/* Logo mobile */}
-                    <div className="flex items-center gap-2 mb-8 lg:hidden">
-                        <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                            <span className="text-white font-bold">M</span>
-                        </div>
-                        <span className="font-semibold text-slate-900">MutuelleComparateur</span>
-                    </div>
 
-                    {title && (
-                        <div className="mb-8">
-                            <h2 className="text-2xl font-bold text-slate-900 mb-1">{title}</h2>
-                            {subtitle && <p className="text-slate-500 text-sm">{subtitle}</p>}
+                    <div className="text-center mb-8">
+
+                        <div className="
+                            w-16
+                            h-16
+                            mx-auto
+                            mb-4
+                            rounded-2xl
+                            bg-gradient-to-br
+                            from-violet-500
+                            to-purple-600
+                            flex
+                            items-center
+                            justify-center
+                            text-white
+                            text-2xl
+                            shadow-lg
+                        ">
+                            üîê
                         </div>
-                    )}
+
+                        <h1 className="
+                            text-3xl
+                            font-bold
+                            text-slate-800
+                        ">
+                            {title}
+                        </h1>
+
+                        {subtitle && (
+                            <div className="
+                                mt-2
+                                text-sm
+                                text-slate-500
+                            ">
+                                {subtitle}
+                            </div>
+                        )}
+                    </div>
 
                     {children}
-                </motion.div>
-            </div>
+
+                </div>
+
+            </motion.div>
         </div>
     );
 }

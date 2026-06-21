@@ -1,80 +1,153 @@
-﻿import { LayoutDashboard, Users, ShieldPlus, FileText } from 'lucide-react';
+﻿import {
+    Users,
+    ShieldPlus,
+    FileText,
+    LayoutDashboard,
+} from "lucide-react";
+
+import PageTransition from "../components/ui/PageTransition";
+import StatCard from "../components/ui/StatCard";
 
 const stats = [
-    { label: 'Utilisateurs', value: '1 284', trend: '+12%', icon: Users, color: 'bg-blue-50 text-blue-600' },
-    { label: 'Mutuelles', value: '48', trend: '+3', icon: ShieldPlus, color: 'bg-green-50 text-green-600' },
-    { label: 'Devis générés', value: '327', trend: '+18%', icon: FileText, color: 'bg-amber-50 text-amber-600' },
-    { label: 'Souscriptions', value: '89', trend: '+7%', icon: LayoutDashboard, color: 'bg-purple-50 text-purple-600' },
+    {
+        label: "Utilisateurs",
+        value: "1 284",
+        trend: "+12%",
+        icon: Users,
+    },
+    {
+        label: "Mutuelles",
+        value: "48",
+        trend: "+3%",
+        icon: ShieldPlus,
+    },
+    {
+        label: "Devis générés",
+        value: "327",
+        trend: "+18%",
+        icon: FileText,
+    },
+    {
+        label: "Souscriptions",
+        value: "89",
+        trend: "+7%",
+        icon: LayoutDashboard,
+    },
 ];
 
 const mutuelles = [
-    { nom: 'Harmonie Santé', garantie: 'Complète', prix: '89 €', statut: 'Actif' },
-    { nom: 'MGEN Plus', garantie: 'Standard', prix: '64 €', statut: 'Actif' },
-    { nom: 'Malakoff Pro', garantie: 'Premium', prix: '124 €', statut: 'Nouveau' },
-    { nom: 'Swiss Life', garantie: 'Eco', prix: '42 €', statut: 'En cours' },
+    { nom: "Harmonie Santé", garantie: "Complète", prix: "89 €", statut: "Actif" },
+    { nom: "MGEN Plus", garantie: "Standard", prix: "64 €", statut: "Actif" },
+    { nom: "Malakoff Pro", garantie: "Premium", prix: "124 €", statut: "Nouveau" },
+    { nom: "Swiss Life", garantie: "Eco", prix: "42 €", statut: "En cours" },
 ];
 
 const statusStyle = {
-    'Actif': 'bg-green-50 text-green-700',
-    'Nouveau': 'bg-blue-50 text-blue-700',
-    'En cours': 'bg-amber-50 text-amber-700',
+    Actif:
+        "bg-green-100 text-green-700 dark:bg-green-500/10 dark:text-green-400",
+    Nouveau:
+        "bg-blue-100 text-blue-700 dark:bg-blue-500/10 dark:text-blue-400",
+    "En cours":
+        "bg-amber-100 text-amber-700 dark:bg-amber-500/10 dark:text-amber-400",
 };
 
 export default function DashboardPage() {
     return (
-        <div>
-            <div className="mb-6">
-                <h2 className="text-xl font-semibold text-slate-900">Bonjour 👋</h2>
-                <p className="text-slate-500 text-sm mt-1">Voici un aperçu de votre plateforme aujourd'hui.</p>
-            </div>
+        <PageTransition>
+            <div className="space-y-6">
 
-            {/* Stats */}
-            <div className="grid grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
-                {stats.map(({ label, value, trend, icon: Icon, color }) => (
-                    <div key={label} className="bg-white rounded-xl border border-slate-200 p-4 flex items-center gap-4">
-                        <div className={`w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 ${color}`}>
-                            <Icon size={20} />
-                        </div>
-                        <div>
-                            <p className="text-xs text-slate-500 mb-0.5">{label}</p>
-                            <p className="text-xl font-bold text-slate-900">{value}</p>
-                            <p className="text-xs text-green-600 mt-0.5">{trend} ce mois</p>
-                        </div>
-                    </div>
-                ))}
-            </div>
-
-            {/* Table */}
-            <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
-                <div className="px-5 py-4 border-b border-slate-100">
-                    <h3 className="text-sm font-semibold text-slate-900">Dernières mutuelles ajoutées</h3>
+                {/* HEADER */}
+                <div>
+                    <h2 className="text-2xl font-bold text-slate-800 dark:text-white">
+                        Bonjour 👋
+                    </h2>
+                    <p className="text-sm text-slate-500 dark:text-slate-400">
+                        Voici un aperçu de votre plateforme aujourd’hui.
+                    </p>
                 </div>
-                <table className="w-full">
-                    <thead>
-                        <tr className="bg-slate-50 border-b border-slate-100">
-                            {['Mutuelle', 'Garantie', 'Prix / mois', 'Statut'].map(h => (
-                                <th key={h} className="px-5 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide">
-                                    {h}
-                                </th>
-                            ))}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {mutuelles.map((m, i) => (
-                            <tr key={i} className="border-b border-slate-50 hover:bg-slate-50/50 transition-colors">
-                                <td className="px-5 py-3.5 text-sm font-medium text-slate-900">{m.nom}</td>
-                                <td className="px-5 py-3.5 text-sm text-slate-600">{m.garantie}</td>
-                                <td className="px-5 py-3.5 text-sm font-semibold text-slate-900">{m.prix}</td>
-                                <td className="px-5 py-3.5">
-                                    <span className={`inline-flex px-2.5 py-1 rounded-full text-xs font-medium ${statusStyle[m.statut]}`}>
-                                        {m.statut}
-                                    </span>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+
+                {/* STATS */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+                    {stats.map((s) => (
+                        <StatCard
+                            key={s.label}
+                            title={s.label}
+                            value={s.value}
+                            trend={s.trend}
+                            icon={s.icon}
+                        />
+                    ))}
+                </div>
+
+                {/* TABLE CARD */}
+                <div
+                    className="
+          bg-white/70 dark:bg-slate-900/60
+          backdrop-blur-xl
+          border border-slate-200 dark:border-slate-800
+          rounded-2xl
+          overflow-hidden
+        "
+                >
+                    {/* HEADER TABLE */}
+                    <div className="px-6 py-4 border-b border-slate-200 dark:border-slate-800">
+                        <h3 className="text-sm font-semibold text-slate-800 dark:text-white">
+                            Dernières mutuelles ajoutées
+                        </h3>
+                    </div>
+
+                    {/* TABLE */}
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-left">
+                            <thead>
+                                <tr className="text-xs text-slate-500 dark:text-slate-400">
+                                    <th className="px-6 py-3">Mutuelle</th>
+                                    <th className="px-6 py-3">Garantie</th>
+                                    <th className="px-6 py-3">Prix</th>
+                                    <th className="px-6 py-3">Statut</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {mutuelles.map((m, i) => (
+                                    <tr
+                                        key={i}
+                                        className="
+                      border-t border-slate-100 dark:border-slate-800
+                      hover:bg-slate-50/50 dark:hover:bg-slate-800/40
+                      transition
+                    "
+                                    >
+                                        <td className="px-6 py-4 font-medium text-slate-800 dark:text-white">
+                                            {m.nom}
+                                        </td>
+
+                                        <td className="px-6 py-4 text-slate-600 dark:text-slate-300">
+                                            {m.garantie}
+                                        </td>
+
+                                        <td className="px-6 py-4 font-semibold text-slate-800 dark:text-white">
+                                            {m.prix}
+                                        </td>
+
+                                        <td className="px-6 py-4">
+                                            <span
+                                                className={`
+                          px-2 py-1 rounded-lg text-xs font-medium
+                          ${statusStyle[m.statut]}
+                        `}
+                                            >
+                                                {m.statut}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
             </div>
-        </div>
+        </PageTransition>
     );
 }
