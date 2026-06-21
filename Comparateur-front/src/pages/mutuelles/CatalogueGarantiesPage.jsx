@@ -9,7 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useGaranties } from '../../hooks/useGaranties';
 import { Button } from '../../components/ui/Button';
-import { Input } from '../../components/ui/Input';
+import  Input  from '../../components/ui/Input';
 import garantieApi from '../../api/garantieApi';
 
 // ── Map par valeur numérique (ce que l'API retourne) ───────────────────────
