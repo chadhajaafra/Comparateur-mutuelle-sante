@@ -14,44 +14,46 @@ import AddGarantieToOffre from './pages/mutuelles/AddGarantieToOffre';
 import CatalogueGarantiesPage from './pages/mutuelles/CatalogueGarantiesPage';
 import MutuelleEditPage from './pages/mutuelles/MutuelleEditPage';  
 import OffreEditPage from './pages/mutuelles/OffreEditPage';  
-
+import { ThemeProvider } from './context/ThemeProvider';
 
 
 export default function App() {
     return (
-        <BrowserRouter>
-            <AuthProvider>
-                <Routes>
-                    {/* Routes publiques */}
-                    <Route path="/login" element={<LoginPage />} />
-                    <Route path="/register" element={<RegisterPage />} />
-                    <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-                    <Route path="/reset-password" element={<ResetPasswordPage />} />
+        <ThemeProvider>
+            <BrowserRouter>
+                <AuthProvider>
+                    <Routes>
+                        {/* Routes publiques */}
+                        <Route path="/login" element={<LoginPage />} />
+                        <Route path="/register" element={<RegisterPage />} />
+                        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+                        <Route path="/reset-password" element={<ResetPasswordPage />} />
 
-                    {/* Routes protégées avec layout */}
-                    <Route element={<ProtectedRoute />}>
-                        <Route element={<AppLayout />}>
-                            <Route path="/dashboard" element={<DashboardPage />} />
-                            <Route path="/mutuelles" element={<MutuellesPage />} />
-                            <Route path="/mutuelles/nouvelle" element={<MutuelleFormPage />} />
-                            <Route path="/mutuelles/:id" element={<MutuelleDetailPage />} />
-                            <Route path="/mutuelles/:id/offres/nouvelle" element={<OffreFormPage />} />
-                            <Route path="/mutuelles/:id/modifier" element={<MutuelleEditPage />} />
-                            <Route path="/mutuelles/:mutuelleId/offres/:offreId/garanties/nouvelle" element={<AddGarantieToOffre />} />
-                            <Route path="/mutuelles/:mutuelleId/offres/:offreId/modifier" element={<OffreEditPage />} />
-                            <Route path="/garanties" element={<CatalogueGarantiesPage />} />
-                            <Route path="/comparateur" element={<div className="page-title">Comparateur — à venir</div>} />
-                            <Route path="/utilisateurs" element={<div className="page-title">Utilisateurs — à venir</div>} />
-                            <Route path="/devis" element={<div className="page-title">Devis — à venir</div>} />
-                            <Route path="/souscriptions" element={<div className="page-title">Souscriptions — à venir</div>} />
-                            <Route path="/parametres" element={<div className="page-title">Paramètres — à venir</div>} />
+                        {/* Routes protégées avec layout */}
+                        <Route element={<ProtectedRoute />}>
+                            <Route element={<AppLayout />}>
+                                <Route path="/dashboard" element={<DashboardPage />} />
+                                <Route path="/mutuelles" element={<MutuellesPage />} />
+                                <Route path="/mutuelles/nouvelle" element={<MutuelleFormPage />} />
+                                <Route path="/mutuelles/:id" element={<MutuelleDetailPage />} />
+                                <Route path="/mutuelles/:id/offres/nouvelle" element={<OffreFormPage />} />
+                                <Route path="/mutuelles/:id/modifier" element={<MutuelleEditPage />} />
+                                <Route path="/mutuelles/:mutuelleId/offres/:offreId/garanties/nouvelle" element={<AddGarantieToOffre />} />
+                                <Route path="/mutuelles/:mutuelleId/offres/:offreId/modifier" element={<OffreEditPage />} />
+                                <Route path="/garanties" element={<CatalogueGarantiesPage />} />
+                                <Route path="/comparateur" element={<div className="page-title">Comparateur — à venir</div>} />
+                                <Route path="/utilisateurs" element={<div className="page-title">Utilisateurs — à venir</div>} />
+                                <Route path="/devis" element={<div className="page-title">Devis — à venir</div>} />
+                                <Route path="/souscriptions" element={<div className="page-title">Souscriptions — à venir</div>} />
+                                <Route path="/parametres" element={<div className="page-title">Paramètres — à venir</div>} />
+                            </Route>
                         </Route>
-                    </Route>
 
                     <Route path="/" element={<Navigate to="/login" replace />} />
                     <Route path="*" element={<Navigate to="/login" replace />} />
                 </Routes>
-            </AuthProvider>
-        </BrowserRouter>
+                </AuthProvider>
+            </BrowserRouter>
+        </ThemeProvider>
     );
 }
