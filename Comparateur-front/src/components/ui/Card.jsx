@@ -1,13 +1,30 @@
-export default function Card({ children }) {
+export default function Card({
+    children,
+    className = "",
+    onClick,
+}) {
     return (
         <div
-            className="
+            onClick={onClick}
+            className={`
                 bg-white
+                dark:bg-slate-900
+
+                border
+                border-slate-200
+                dark:border-slate-800
+
                 rounded-3xl
-                shadow-lg
-                border border-slate-100
-                p-8
-            "
+
+                shadow-sm
+                hover:shadow-md
+
+                transition-all
+
+                ${onClick ? "cursor-pointer" : ""}
+
+                ${className}
+            `}
         >
             {children}
         </div>
