@@ -20,58 +20,47 @@ export default function Topbar() {
 
     return (
         <header className="sticky top-0 z-50 px-6 pt-4">
-            <div
-                className="
-        flex items-center justify-between
-        bg-white/70 dark:bg-slate-900/60
-        backdrop-blur-xl
-        border border-slate-200/50 dark:border-slate-800
-        rounded-2xl
-        px-5
-        py-3
-        shadow-sm
-      "
-            >
+            <div className="flex items-center justify-between
+                bg-white/60 dark:bg-slate-900/60
+                backdrop-blur-xl
+                border border-slate-200 dark:border-slate-800
+                rounded-2xl
+                px-5 py-3
+                shadow-sm">
+
                 {/* TITLE */}
                 <div>
-                    <h1 className="text-lg font-semibold text-slate-800 dark:text-white">
+                    <h1 className="text-lg font-semibold text-slate-900 dark:text-white">
                         {title}
                     </h1>
-                    <p className="text-xs text-slate-500 dark:text-slate-400">
-                        Welcome back 👋
-                    </p>
                 </div>
 
                 {/* SEARCH */}
-                <div
-                    className="
-          hidden md:flex
-          items-center gap-2
-          bg-slate-100/70 dark:bg-slate-800/60
-          px-3 py-2
-          rounded-xl
-          w-80
-        "
-                >
+                <div className="hidden md:flex items-center gap-2
+                    bg-slate-100/60 dark:bg-slate-800/60
+                    px-3 py-2 rounded-xl w-80
+                    border border-transparent
+                    focus-within:border-violet-400 transition">
+
                     <Search size={16} className="text-slate-400" />
                     <input
                         placeholder="Rechercher..."
-                        className="bg-transparent text-sm outline-none w-full text-slate-700 dark:text-slate-200"
+                        className="bg-transparent text-sm outline-none w-full
+                        text-slate-700 dark:text-slate-200"
                     />
                 </div>
 
                 {/* ACTIONS */}
                 <div className="flex items-center gap-2">
-                    {/* Theme toggle */}
+
+                    {/* THEME */}
                     <button
                         onClick={toggleTheme}
-                        className="
-              w-10 h-10
-              flex items-center justify-center
-              rounded-xl
-              bg-slate-100 dark:bg-slate-800
-              hover:scale-105 transition
-            "
+                        className="w-10 h-10 flex items-center justify-center
+                        rounded-xl
+                        bg-slate-100 dark:bg-slate-800
+                        hover:bg-slate-200 dark:hover:bg-slate-700
+                        transition"
                     >
                         {theme === "dark" ? (
                             <Sun size={18} className="text-yellow-400" />
@@ -80,19 +69,18 @@ export default function Topbar() {
                         )}
                     </button>
 
-                    {/* Notifications */}
-                    <button
-                        className="
-              relative w-10 h-10
-              flex items-center justify-center
-              rounded-xl
-              bg-slate-100 dark:bg-slate-800
-              hover:scale-105 transition
-            "
-                    >
-                        <Bell size={18} />
+                    {/* NOTIF */}
+                    <button className="relative w-10 h-10 flex items-center justify-center
+                        rounded-xl
+                        bg-slate-100 dark:bg-slate-800
+                        hover:bg-slate-200 dark:hover:bg-slate-700
+                        transition">
+
+                        <Bell size={18} className="text-slate-600 dark:text-slate-300" />
+
                         <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full" />
                     </button>
+
                 </div>
             </div>
         </header>
