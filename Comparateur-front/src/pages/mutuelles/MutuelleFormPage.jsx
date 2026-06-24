@@ -1,70 +1,160 @@
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { useNavigate } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
-import { Input } from '../../components/ui/Input';
-import { Button } from '../../components/ui/Button';
-import mutuelleApi from '../../api/mutuelleApi';
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { useNavigate } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
+
+import Input from "../../components/ui/Input";
+import { Button } from "../../components/ui/Button";
+import mutuelleApi from "../../api/mutuelleApi";
 
 const schema = z.object({
-    nom: z.string().min(1, 'Nom requis').max(200),
-    description: z.string().min(1, 'Description requise').max(2000),
+    nom: z.string().min(1, "Nom requis").max(200),
+    description: z.string().min(1, "Description requise").max(2000),
     logo: z.string().optional(),
-    siteWeb: z.string().url('URL invalide').or(z.literal('')),
+    siteWeb: z.string().url("URL invalide").or(z.literal("")),
 });
 
 export default function MutuelleFormPage() {
     const navigate = useNavigate();
 
-    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
+    const {
+        register,
+        handleSubmit,
+        formState: { errors, isSubmitting },
+    } = useForm({
         resolver: zodResolver(schema),
     });
 
     const onSubmit = async (data) => {
         try {
-            const res = await mutuelleApi.create({ ...data, logo: data.logo || '' });
+            const res = await mutuelleApi.create({
+                ...data,
+                logo: data.logo || "",
+            });
+
             navigate(`/mutuelles/${res.data.id}`);
         } catch (e) {
-            alert(e.response?.data?.title || 'Erreur lors de la création');
+            alert(e.response?.data?.title || "Erreur lors de la création");
         }
     };
 
     return (
-        <div className="max-w-xl">
-            <button onClick={() => navigate('/mutuelles')}
-                className="flex items-center gap-2 text-sm text-slate-500 hover:text-slate-800 mb-6 transition-colors">
-                <ArrowLeft size={16} /> Retour
+        <div className="max-w-2xl mx-auto space-y-6">
+
+            {/* BACK */}
+            <button
+                onClick={() => navigate("/mutuelles")}
+                className="
+                    flex items-center gap-2
+                    text-sm text-slate-500
+                    hover:text-slate-900 dark:hover:text-white
+                    transition
+                "
+            >
+                <ArrowLeft size={16} />
+                Retour
             </button>
 
-            <div className="bg-white rounded-xl border border-slate-200 p-6">
-                <h2 className="text-lg font-semibold text-slate-900 mb-6">Nouvelle mutuelle</h2>
+            {/* CARD */}
+            <div
+                className="
+                    bg-white/70 dark:bg-slate-900/60
+                    backdrop-blur-xl
+                    border border-slate-200 dark:border-slate-800
+                    rounded-2xl
+                    p-6
+                    shadow-sm
+                "
+            >
 
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                    <Input label="Nom de la mutuelle" placeholder="ex: Harmonie Santé"
-                        error={errors.nom?.message} {...register('nom')} />
+                <h2 className="text-xl font-bold text-slate-800 dark:text-white">
+                    Nouvelle mutuelle
+                </h2>
 
-                    <div className="flex flex-col gap-1.5">
-                        <label className="text-sm font-medium text-slate-700">Description</label>
-                        <textarea rows={4} placeholder="Décrivez la mutuelle..."
-                            className={`rounded-lg border px-3.5 py-2.5 text-sm bg-slate-50 text-slate-900 placeholder:text-slate-400 outline-none transition-all resize-none focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 ${errors.description ? 'border-red-400' : 'border-slate-200'}`}
-                            {...register('description')} />
-                        {errors.description && <p className="text-xs text-red-500">? {errors.description.message}</p>}
+                <p className="text-sm text-slate-500 dark:text-slate-400 mb-6">
+                    Créez une nouvelle mutuelle dans votre système
+                </p>
+
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+
+                    {/* NOM */}
+                    <Input
+                        label="Nom de la mutuelle"
+                        placeholder="ex: Harmonie Santé"
+                        error={errors.nom?.message}
+                        {...register("nom")}
+                    />
+
+                    {/* DESCRIPTION */}
+                    <div>
+                        <label className="text-sm text-slate-600 dark:text-slate-300">
+                            Description
+                        </label>
+
+                        <textarea
+                            rows={4}
+                            placeholder="Décrivez la mutuelle..."
+                            className="
+                                w-full mt-1
+                                px-3 py-2
+                                rounded-xl
+                                bg-white/70 dark:bg-slate-800/60
+                                border border-slate-200 dark:border-slate-700
+                                text-sm text-slate-800 dark:text-slate-200
+                                outline-none
+                                resize-none
+                                transition
+                                focus:border-violet-500
+                                focus:ring-4 focus:ring-violet-500/10
+                            "
+                            {...register("description")}
+                        />
+
+                        {errors.description && (
+                            <p className="text-xs text-red-500 mt-1">
+                                {errors.description.message}
+                            </p>
+                        )}
                     </div>
 
-                    <Input label="Site web" placeholder="https://www.exemple.fr"
-                        error={errors.siteWeb?.message} {...register('siteWeb')} />
+                    {/* SITE WEB */}
+                    <Input
+                        label="Site web"
+                        placeholder="https://www.exemple.fr"
+                        error={errors.siteWeb?.message}
+                        {...register("siteWeb")}
+                    />
 
-                    <Input label="Logo (URL)" placeholder="https://..." {...register('logo')} />
+                    {/* LOGO */}
+                    <Input
+                        label="Logo (URL)"
+                        placeholder="https://..."
+                        {...register("logo")}
+                    />
 
+                    {/* ACTIONS */}
                     <div className="flex gap-3 pt-2">
-                        <Button type="button" variant="outline" onClick={() => navigate('/mutuelles')} className="flex-1">
+
+                        <Button
+                            type="button"
+                            variant="outline"
+                            onClick={() => navigate("/mutuelles")}
+                            className="flex-1"
+                        >
                             Annuler
                         </Button>
-                        <Button type="submit" loading={isSubmitting} className="flex-1">
+
+                        <Button
+                            type="submit"
+                            loading={isSubmitting}
+                            className="flex-1"
+                        >
                             Créer la mutuelle
                         </Button>
+
                     </div>
+
                 </form>
             </div>
         </div>

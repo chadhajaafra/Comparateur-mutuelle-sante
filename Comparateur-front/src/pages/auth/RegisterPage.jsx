@@ -8,7 +8,7 @@ import { User, Building2, Shield } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 import AuthLayout from '../../components/layout/AuthLayout';
 import { Button } from '../../components/ui/Button';
-import { Input } from '../../components/ui/Input';
+import  Input  from '../../components/ui/Input';
 
 const step1Schema = z.object({
     firstName: z.string().min(1, 'Prénom requis'),

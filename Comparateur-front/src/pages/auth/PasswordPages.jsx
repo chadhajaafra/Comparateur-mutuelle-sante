@@ -8,7 +8,7 @@ import { Mail, CheckCircle } from 'lucide-react';
 import authApi from '../../api/authApi';
 import AuthLayout from '../../components/layout/AuthLayout';
 import { Button } from '../../components/ui/Button';
-import { Input } from '../../components/ui/Input';
+import  Input  from '../../components/ui/Input';
 
 // ── Forgot Password ─────────────────────────────────────────────────────────
 export function ForgotPasswordPage() {

@@ -1,24 +1,64 @@
-import { forwardRef } from 'react';
-import { clsx } from 'clsx';
+import { forwardRef } from "react";
 
-export const Input = forwardRef(({ label, error, hint, className, ...props }, ref) => (
-    <div className="flex flex-col gap-1.5">
-        {label && (
-            <label className="text-sm font-medium text-slate-700 flex items-center justify-between">
-                {label}
-                {hint && <span className="text-xs font-normal text-slate-400">{hint}</span>}
-            </label>
-        )}
-        <input
-            ref={ref}
-            className={clsx(
-                'h-11 rounded-lg border px-3.5 text-sm bg-slate-50 text-slate-900 placeholder:text-slate-400 outline-none transition-all',
-                'focus:bg-white focus:border-blue-500 focus:ring-3 focus:ring-blue-500/10',
-                error ? 'border-red-400 focus:border-red-500 focus:ring-red-500/10' : 'border-slate-200 hover:border-slate-300',
-                className
-            )}
-            {...props}
-        />
-        {error && <p className="text-xs text-red-500 flex items-center gap-1"><span>⚠</span>{error}</p>}
-    </div>
-));
+const Input = forwardRef(
+    ({ label, error, hint, className = "", ...props }, ref) => {
+        return (
+            <div className="space-y-2">
+                {label && (
+                    <div className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                        {label}
+                    </div>
+                )}
+
+                <input
+                    ref={ref}
+                    {...props}
+                    className={`
+        w-full
+        px-4
+        py-3
+
+        rounded-xl
+
+        border
+        border-slate-200
+        dark:border-slate-700
+
+        bg-white
+        dark:bg-slate-900
+
+        text-slate-900
+        dark:text-white
+
+        placeholder:text-slate-400
+        dark:placeholder:text-slate-500
+
+        transition-all
+        duration-300
+
+        hover:border-violet-300
+
+        focus:border-violet-500
+        focus:ring-4
+        focus:ring-violet-100
+        dark:focus:ring-violet-500/20
+
+        outline-none
+
+        ${error ? "border-red-500" : ""}
+        ${className}
+    `}
+                />
+
+                {hint}
+
+                {error && (
+                    <p className="text-red-500 text-sm">
+                        {error}
+                    </p>
+                )}
+            </div>
+        );
+    });
+
+export default Input;

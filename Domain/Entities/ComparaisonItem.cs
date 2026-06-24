@@ -21,5 +21,7 @@ namespace Comparateur.Domain.Entities
 
         public static ComparaisonItem Create(Guid sessionId, Guid offreId, int position) =>
             new() { SessionId = sessionId, OffreId = offreId, Position = position };
+        public void UpdatePosition(int position) => Position = position;
+
     }
 }
