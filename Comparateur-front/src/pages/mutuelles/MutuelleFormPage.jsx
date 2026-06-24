@@ -46,11 +46,11 @@ export default function MutuelleFormPage() {
             <button
                 onClick={() => navigate("/mutuelles")}
                 className="
-          flex items-center gap-2
-          text-sm text-slate-500
-          hover:text-slate-900 dark:hover:text-white
-          transition
-        "
+                    flex items-center gap-2
+                    text-sm text-slate-500
+                    hover:text-slate-900 dark:hover:text-white
+                    transition
+                "
             >
                 <ArrowLeft size={16} />
                 Retour
@@ -59,16 +59,15 @@ export default function MutuelleFormPage() {
             {/* CARD */}
             <div
                 className="
-        bg-white/70 dark:bg-slate-900/60
-        backdrop-blur-xl
-        border border-slate-200 dark:border-slate-800
-        rounded-2xl
-        p-6
-        shadow-sm
-      "
+                    bg-white/70 dark:bg-slate-900/60
+                    backdrop-blur-xl
+                    border border-slate-200 dark:border-slate-800
+                    rounded-2xl
+                    p-6
+                    shadow-sm
+                "
             >
 
-                {/* TITLE */}
                 <h2 className="text-xl font-bold text-slate-800 dark:text-white">
                     Nouvelle mutuelle
                 </h2>
@@ -97,18 +96,18 @@ export default function MutuelleFormPage() {
                             rows={4}
                             placeholder="Décrivez la mutuelle..."
                             className="
-                w-full mt-1
-                px-3 py-2
-                rounded-xl
-                bg-slate-100 dark:bg-slate-800
-                border border-slate-200 dark:border-slate-700
-                text-sm
-                outline-none
-                resize-none
-                focus:border-violet-500
-                focus:ring-2 focus:ring-violet-500/10
-                transition
-              "
+                                w-full mt-1
+                                px-3 py-2
+                                rounded-xl
+                                bg-white/70 dark:bg-slate-800/60
+                                border border-slate-200 dark:border-slate-700
+                                text-sm text-slate-800 dark:text-slate-200
+                                outline-none
+                                resize-none
+                                transition
+                                focus:border-violet-500
+                                focus:ring-4 focus:ring-violet-500/10
+                            "
                             {...register("description")}
                         />
 

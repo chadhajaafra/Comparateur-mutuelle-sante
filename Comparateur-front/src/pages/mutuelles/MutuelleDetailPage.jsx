@@ -115,13 +115,16 @@ export default function MutuelleDetailPage() {
                         <button
                             onClick={() => navigate(`/mutuelles/${id}/modifier`)}
                             className="
-                px-4 h-9
-                rounded-xl
-                bg-slate-100 dark:bg-slate-800
-                text-sm
-                hover:scale-[1.02] transition
-              "
+                 flex items-center gap-2
+              px-3 h-9
+              text-sm
+              bg-violet-600 hover:bg-violet-700
+              text-white
+              rounded-xl
+              transition
+            "
                         >
+                            <Plus size={14} />
                             Modifier
                         </button>
                     )}
