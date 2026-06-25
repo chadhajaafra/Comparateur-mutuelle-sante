@@ -12,7 +12,7 @@ const links = [
     { to: "/utilisateurs", icon: Users, label: "Utilisateurs" },
     { to: "/mutuelles", icon: Activity, label: "Mutuelles" },
     { to: "/garanties", icon: FileText, label: "Garanties" },
-    { to: "/parametres", icon: Settings, label: "Paramètres" },
+    { to: "/comparateur", icon: Settings, label: "Comparateur" },
 
 ];
 

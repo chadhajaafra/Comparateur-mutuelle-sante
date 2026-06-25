@@ -36,7 +36,6 @@ export default function App() {
                         <Route element={<AppLayout />}>
                             <Route path="/dashboard" element={<DashboardPage />} />
                             <Route path="/mutuelles" element={<MutuellesPage />} />
-                            <Rhttps://github.com/chadhajaafra/Comparateur-mutuelle-sante/pull/32/conflict?name=Comparateur-front%252Fsrc%252FApp.jsx&ancestor_oid=4611fdcb19526793c6e258fba088ad0691662dd2&base_oid=cf3effd8273c4312fe561d81bc87fdef96c80188&head_oid=40f27396e9cbb302efb5ba80a84ef369eb8ed9c3oute path="/mutuelles/nouvelle" element={<MutuelleFormPage />} />
                             <Route path="/mutuelles/:id" element={<MutuelleDetailPage />} />
                             <Route path="/mutuelles/:id/offres/nouvelle" element={<OffreFormPage />} />
                             <Route path="/mutuelles/:id/modifier" element={<MutuelleEditPage />} />

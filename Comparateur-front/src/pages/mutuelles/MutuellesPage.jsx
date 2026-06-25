@@ -70,13 +70,17 @@ export default function MutuellesPage() {
                     <button
                         onClick={() => navigate("/mutuelles/nouvelle")}
                         className="
-              flex items-center gap-2
-              h-10 px-4
-              bg-violet-600 hover:bg-violet-700
-              text-white text-sm font-medium
-              rounded-xl
-              transition
-            "
+           flex
+           items-center
+           gap-2
+           px-4
+           py-2
+           rounded-xl
+           bg-violet-50
+           text-violet-600
+           hover:bg-violet-100
+           dark:bg-violet-500/10
+       "
                     >
                         <Plus size={16} />
                         Ajouter

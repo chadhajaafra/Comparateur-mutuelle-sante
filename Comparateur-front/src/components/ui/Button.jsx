@@ -10,7 +10,6 @@ const variants = {
     hover:shadow-[0_10px_30px_rgba(124,58,237,0.35)]
     hover:-translate-y-0.5
   `,
-
     outline: `
     bg-white
     dark:bg-slate-900
@@ -21,7 +20,6 @@ const variants = {
     hover:bg-slate-50
     dark:hover:bg-slate-800
   `,
-
     ghost: `
     bg-transparent
     border-transparent
@@ -30,7 +28,6 @@ const variants = {
     hover:bg-slate-100
     dark:hover:bg-slate-800
   `,
-
     soft: `
     bg-violet-50
     dark:bg-violet-500/10
@@ -40,7 +37,6 @@ const variants = {
     hover:bg-violet-100
     dark:hover:bg-violet-500/20
   `,
-
     danger: `
     bg-gradient-to-r
     from-red-500
@@ -52,9 +48,9 @@ const variants = {
 };
 
 const sizes = {
-    sm: "h-9 px-4 text-sm",
-    md: "h-11 px-5 text-sm",
-    lg: "h-12 px-6 text-base",
+    sm: "px-3 py-1.5 text-sm",
+    md: "px-4 py-2 text-sm",
+    lg: "px-5 py-2.5 text-base",
 };
 
 export function Button({
@@ -76,10 +72,10 @@ export function Button({
         justify-center
         gap-2
         rounded-xl
-        font-semibold
-        border
+        font-medium
+        border-0
         transition-all
-        duration-300
+        duration-200
         disabled:opacity-50
         disabled:cursor-not-allowed
         active:scale-[0.98]
