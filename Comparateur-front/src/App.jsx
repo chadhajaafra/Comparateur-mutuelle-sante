@@ -37,6 +37,7 @@ export default function App() {
                             <Route path="/dashboard" element={<DashboardPage />} />
                             <Route path="/mutuelles" element={<MutuellesPage />} />
                             <Route path="/mutuelles/:id" element={<MutuelleDetailPage />} />
+                            <Route path="/mutuelles/nouvelle" element={<MutuelleFormPage />} />
                             <Route path="/mutuelles/:id/offres/nouvelle" element={<OffreFormPage />} />
                             <Route path="/mutuelles/:id/modifier" element={<MutuelleEditPage />} />
                             <Route path="/mutuelles/:mutuelleId/offres/:offreId/garanties/nouvelle" element={<AddGarantieToOffre />} />
