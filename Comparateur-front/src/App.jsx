@@ -15,6 +15,7 @@ import CatalogueGarantiesPage from './pages/mutuelles/CatalogueGarantiesPage';
 import MutuelleEditPage from './pages/mutuelles/MutuelleEditPage';  
 import OffreEditPage from './pages/mutuelles/OffreEditPage';  
 import ComparateurPage from './pages/comparateur/ComparateurWizard';
+
 import ComparaisonResultatPage from './pages/comparateur/ComparaisonResultatPage';
 import { ThemeProvider } from './context/ThemeProvider';
 
