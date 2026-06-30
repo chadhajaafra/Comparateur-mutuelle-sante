@@ -13,7 +13,15 @@ namespace Comparateur.Infrastructure.Persistence.Repositories
     {
         private readonly AppDbContext _ctx;
         public OffreRepository(AppDbContext ctx) => _ctx = ctx;
-
+        private IQueryable<ComparaisonSession> WithItems() =>
+       _ctx.ComparaisonSessions
+       .Include(s => s.Items)
+           .ThenInclude(i => i.Offre)
+               .ThenInclude(o => o.Mutuelle)
+       .Include(s => s.Items)                          // ← ajout
+           .ThenInclude(i => i.Offre)
+               .ThenInclude(o => o.OffreGaranties)
+                   .ThenInclude(og => og.Garantie);
         public async Task<Offre?> GetByIdAsync(Guid id, CancellationToken ct = default)
             => await _ctx.Offres.FindAsync(new object[] { id }, ct);
 

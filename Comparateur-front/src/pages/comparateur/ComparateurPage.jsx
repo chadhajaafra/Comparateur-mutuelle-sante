@@ -195,12 +195,15 @@ export default function ComparateurPage() {
             const data = await comparateurApi.rechercher({
                 search: search || undefined,
                 budgetMax: budgetMax || undefined,
-                niveau: niveau || undefined,
-                typesGarantie: typesSelected.length ? typesSelected.join(',') : undefined,
-                page: 1, pageSize: 20,
+                niveauSouhaite: niveau || undefined,   // ← était "niveau", doit être "niveauSouhaite"
+                typesGarantie: typesSelected,             // ← était .join(','), doit être l'array direct
+                page: 1,
+                pageSize: 20,
             });
             setResults(data);
             setShowFilters(false);
+        } catch (err) {
+            console.error(err);
         } finally {
             setSearching(false);
         }

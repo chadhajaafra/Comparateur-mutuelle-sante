@@ -430,7 +430,7 @@ export default function ComparateurWizard() {
     };
 
     const handleSubmit = () => {
-        navigate("/comparateur/resultat", {
+        navigate("/comparateur/resultat"/*, {
             state: {
                 criteres: { budgetMax: data.budgetMax, niveauSouhaite: data.niveauSouhaite, typesGarantie: data.typesGarantie },
                 profil: {
@@ -440,7 +440,7 @@ export default function ComparateurWizard() {
                     dateEffet: data.dateEffet
                 },
             },
-        });
+        }*/);
     };
 
     const goNext = () => {

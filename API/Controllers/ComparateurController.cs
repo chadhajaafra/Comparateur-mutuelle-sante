@@ -4,7 +4,6 @@ using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Org.BouncyCastle.Asn1.Ocsp;
 using System.Security.Claims;
 
 namespace Comparateur.API.Controllers
@@ -38,29 +37,24 @@ namespace Comparateur.API.Controllers
         [HttpGet("recherche")]
         [AllowAnonymous]
         public async Task<IActionResult> Recherche(
-      [FromQuery] int? budgetMax,
-      [FromQuery] int? niveau,
-      [FromQuery] string? typesGarantie,
-      [FromQuery] string? search,
-      [FromQuery] string? couverture,
-      [FromQuery] bool? assureActuellement,
-      [FromQuery] string? codePostal,
-      [FromQuery] int page = 1,
-      [FromQuery] int pageSize = 10,
-      CancellationToken ct = default)
+            [FromQuery] int? budgetMax,
+            [FromQuery] int? niveau,
+            [FromQuery] List<int>? typesGarantie,
+            [FromQuery] string? search,
+            [FromQuery] string? couverture,
+            [FromQuery] bool? assureActuellement,
+            [FromQuery] string? codePostal,
+            [FromQuery] int page = 1,
+            [FromQuery] int pageSize = 10,
+            CancellationToken ct = default)
         {
-            var types = typesGarantie?
-                .Split(',', StringSplitOptions.RemoveEmptyEntries)
-                .Select(int.Parse).ToList();
-
             var result = await _sender.Send(new RechercherOffresQuery(
-                budgetMax, niveau, types, search,
+                budgetMax, niveau, typesGarantie, search,
                 couverture, assureActuellement, codePostal,
                 page, pageSize), ct);
 
             return Ok(result);
         }
-
         // POST api/comparateur/session
         [HttpPost("session")]
         [AllowAnonymous]
