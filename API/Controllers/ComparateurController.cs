@@ -1,5 +1,6 @@
 ﻿using Comparateur.Application.Features.Comparateur.Commands;
 using Comparateur.Application.Features.Comparateur.Queries;
+using Comparateur.Domain.Interfaces;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -14,9 +15,14 @@ namespace Comparateur.API.Controllers
     {
         private readonly ISender _sender;
         private const string SESSION_COOKIE = "comp_session";
+        private readonly IPdfTextExtractorService _pdfExtractor;
 
-        public ComparateurController(ISender sender) => _sender = sender;
 
+        public ComparateurController(ISender sender, IPdfTextExtractorService pdfExtractor)
+        {
+            _sender = sender;
+            _pdfExtractor = pdfExtractor;
+        }
         private Guid? UserId =>
             User.Identity?.IsAuthenticated == true
                 ? Guid.Parse(User.FindFirstValue("sub")!)
@@ -112,7 +118,39 @@ namespace Comparateur.API.Controllers
             await _sender.Send(new ViderSessionCommand(sessionId), ct);
             return NoContent();
         }
+
+        [HttpPost("analyser-contrat")]
+        [AllowAnonymous]
+        [RequestSizeLimit(10_000_000)] // 10 MB max
+        public async Task<IActionResult> AnalyserContrat(IFormFile fichier, CancellationToken ct)
+        {
+            if (fichier is null || fichier.Length == 0)
+                return BadRequest(new { message = "Aucun fichier reçu." });
+
+            if (fichier.ContentType != "application/pdf")
+                return BadRequest(new { message = "Seuls les fichiers PDF sont acceptés." });
+
+            string texte;
+            using (var stream = fichier.OpenReadStream())
+            {
+                texte = _pdfExtractor.ExtraireTexte(stream);
+            }
+
+            if (string.IsNullOrWhiteSpace(texte))
+                return BadRequest(new { message = "Impossible d'extraire du texte de ce PDF (scanné/image ?)." });
+
+            try
+            {
+                var result = await _sender.Send(new AnalyserContratCommand(texte), ct);
+                return Ok(result);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return StatusCode(502, new { message = "Erreur lors de l'analyse IA.", detail = ex.Message });
+            }
+        }
     }
 
     public record AjouterOffreRequest(Guid OffreId);
+
 }

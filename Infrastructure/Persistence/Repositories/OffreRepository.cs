@@ -65,5 +65,14 @@ namespace Comparateur.Infrastructure.Persistence.Repositories
 
             return await q.ToListAsync(ct);
         }
+        public async Task<IEnumerable<Offre>> GetActiveOffresAsync(CancellationToken ct)
+        {
+            return await _ctx.Offres
+                .Include(o => o.Mutuelle)
+                .Include(o => o.OffreGaranties)
+                    .ThenInclude(og => og.Garantie)
+                .Where(o => o.IsActive)
+                .ToListAsync(ct);
+        }
     }
 }
