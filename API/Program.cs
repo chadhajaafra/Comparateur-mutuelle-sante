@@ -1,6 +1,9 @@
 using Comparateur.API.Middleware;
 using Comparateur.Application;
+using Comparateur.Domain.Interfaces;
 using Comparateur.Infrastructure;
+using Comparateur.Infrastructure.NewFolder;
+using Comparateur.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -23,7 +26,10 @@ builder.Services.AddCors(options =>
 // Clean Architecture layers
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
-
+//Extraction PDF 
+builder.Services.Configure<GroqSettings>(builder.Configuration.GetSection("Groq"));
+builder.Services.AddHttpClient<IClaudeService, GroqApiService>();
+builder.Services.AddScoped<IPdfTextExtractorService, PdfTextExtractorService>();
 // JWT Auth
 var secret = builder.Configuration["JwtSettings:Secret"]!;
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
