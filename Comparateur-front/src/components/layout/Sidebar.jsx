@@ -9,7 +9,7 @@ import {
 
 const links = [
     { to: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
-    { to: "/utilisateurs", icon: Users, label: "Utilisateurs" },
+    { to: "/comparateur/AnalyseContratPage", icon: Users, label: "AnalyseContratPage" },
     { to: "/mutuelles", icon: Activity, label: "Mutuelles" },
     { to: "/garanties", icon: FileText, label: "Garanties" },
     { to: "/comparateur", icon: Settings, label: "Comparateur" },
