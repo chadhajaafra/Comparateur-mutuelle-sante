@@ -16,7 +16,7 @@ import MutuelleEditPage from './pages/mutuelles/MutuelleEditPage';
 import OffreEditPage from './pages/mutuelles/OffreEditPage';  
 import ComparateurPage from './pages/comparateur/ComparateurWizard';
 import Comparaisonresultat from './pages/comparateur/Comparaisonresultat';
-import ComparaisonResultatPage from './pages/comparateur/ComparaisonResultatPage';
+import AnalyseContratPage from './pages/comparateur/AnalyseContratPage';
 import { ThemeProvider } from './context/ThemeProvider';
 
 
@@ -49,7 +49,9 @@ export default function App() {
                             <Route path="/souscriptions" element={<div className="page-title">Souscriptions — à venir</div>} />
                             <Route path="/parametres" element={<div className="page-title">Paramètres — à venir</div>} />
                             <Route path="/comparateur" element={<ComparateurPage />} />
-                            <Route path="/comparateur/resultat" element={<Comparaisonresultat />} />
+                                <Route path="/comparateur/resultat" element={<Comparaisonresultat />} />
+                                <Route path="/comparateur/AnalyseContratPage" element={<AnalyseContratPage />} />
+
                             </Route>
                         </Route>
 

@@ -20,6 +20,16 @@ const comparateurApi = {
         axiosClient.delete(`/comparateur/session/${sessionId}/offres/${offreId}`),
     viderSession: (sessionId) =>
         axiosClient.delete(`/comparateur/session/${sessionId}`),
+
+    analyserContrat: (fichier) => {
+        const formData = new FormData();
+        formData.append('fichier', fichier);
+        return axiosClient
+            .post('/comparateur/analyser-contrat', formData, {
+                headers: { 'Content-Type': 'multipart/form-data' },
+            })
+            .then(r => r.data);
+    },
 };
 
 export default comparateurApi;
