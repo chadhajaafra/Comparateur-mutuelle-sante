@@ -7,9 +7,9 @@ const titles = {
     "/utilisateurs": "Utilisateurs",
     "/mutuelles": "Mutuelles",
     "/comparateur": "Comparateur",
-    "/devis": "Devis",
+    "/AnalyseContratPage": "Comparateur IA",
     "/souscriptions": "Souscriptions",
-    "/parametres": "Paramètres",
+    "/garanties": "Garanties",
 };
 
 export default function Topbar() {

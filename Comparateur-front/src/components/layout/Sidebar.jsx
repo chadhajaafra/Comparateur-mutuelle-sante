@@ -1,18 +1,18 @@
 ﻿import { NavLink } from "react-router-dom";
 import {
     LayoutDashboard,
-    Users,
+    Brain,
     FileText,
-    Settings,
+    GitCompare,
     Activity,
 } from "lucide-react";
 
 const links = [
     { to: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
-    { to: "/comparateur/AnalyseContratPage", icon: Users, label: "AnalyseContratPage" },
+    { to: "/AnalyseContratPage", icon: Brain, label: "Comparateur IA" },
     { to: "/mutuelles", icon: Activity, label: "Mutuelles" },
     { to: "/garanties", icon: FileText, label: "Garanties" },
-    { to: "/comparateur", icon: Settings, label: "Comparateur" },
+    { to: "/comparateur", icon: GitCompare, label: "Comparateur" },
 
 ];
 
