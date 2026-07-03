@@ -50,7 +50,7 @@ export default function App() {
                             <Route path="/parametres" element={<div className="page-title">Paramètres — à venir</div>} />
                             <Route path="/comparateur" element={<ComparateurPage />} />
                                 <Route path="/comparateur/resultat" element={<Comparaisonresultat />} />
-                                <Route path="/comparateur/AnalyseContratPage" element={<AnalyseContratPage />} />
+                                <Route path="/AnalyseContratPage" element={<AnalyseContratPage />} />
 
                             </Route>
                         </Route>
