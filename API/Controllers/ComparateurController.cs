@@ -1,4 +1,5 @@
 ﻿using Comparateur.Application.Features.Comparateur.Commands;
+using Comparateur.Application.Features.Comparateur.Dtos;
 using Comparateur.Application.Features.Comparateur.Queries;
 using Comparateur.Domain.Interfaces;
 using Domain.Entities;
@@ -149,8 +150,31 @@ namespace Comparateur.API.Controllers
                 return StatusCode(502, new { message = "Erreur lors de l'analyse IA.", detail = ex.Message });
             }
         }
-    }
+        //chabot
+        [HttpPost("assistant-chat")]
+        [AllowAnonymous]
+        public async Task<IActionResult> AssistantChat(
+        [FromBody] AssistantChatRequest request, CancellationToken ct)
+            {
+                if (string.IsNullOrWhiteSpace(request.Message))
+                    return BadRequest(new { message = "Message vide." });
 
+                try
+                {
+                    var result = await _sender.Send(
+                        new AssistantRechercheCommand(request.Message, request.Historique ?? new()), ct);
+                    return Ok(result);
+                }
+                catch (InvalidOperationException ex)
+                {
+                    return StatusCode(502, new { message = "Erreur assistant IA.", detail = ex.Message });
+                }
+            }
+
+            // DTO Request séparé, comme pour AjouterOffreRequest
+            public record AssistantChatRequest(string Message, List<ChatMessageDto>? Historique);
+        }
+    
     public record AjouterOffreRequest(Guid OffreId);
 
 }
