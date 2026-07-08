@@ -30,6 +30,8 @@ builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.Configure<GroqSettings>(builder.Configuration.GetSection("Groq"));
 builder.Services.AddHttpClient<IClaudeService, GroqApiService>();
 builder.Services.AddScoped<IPdfTextExtractorService, PdfTextExtractorService>();
+//chatbot 
+builder.Services.AddHttpClient<IAssistantRechercheService, GroqAssistantRechercheService>();
 // JWT Auth
 var secret = builder.Configuration["JwtSettings:Secret"]!;
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
