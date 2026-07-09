@@ -17,6 +17,13 @@ namespace Comparateur.Application.Features.Comparateur.Commands
         private readonly IAssistantRechercheService _assistantService;
         private readonly IOffreRepository _offreRepository;
 
+        private const int NIVEAU_MIN = 1;
+        private const int NIVEAU_MAX = 3;
+        private const int TYPE_GARANTIE_MIN = 1;
+        private const int TYPE_GARANTIE_MAX = 6;
+        private const decimal BUDGET_MIN = 0;
+        private const decimal BUDGET_MAX_RAISONNABLE = 1000;
+
         public AssistantRechercheCommandHandler(
             IAssistantRechercheService assistantService,
             IOffreRepository offreRepository)
@@ -27,21 +34,28 @@ namespace Comparateur.Application.Features.Comparateur.Commands
 
         public async Task<ChatRechercheResultDto> Handle(AssistantRechercheCommand request, CancellationToken ct)
         {
-            var historiqueTuples = request.Historique
-                .Select(h => (h.Role, h.Contenu))
-                .ToList();
-
+            var historiqueTuples = request.Historique.Select(h => (h.Role, h.Contenu)).ToList();
             var extrait = await _assistantService.AnalyserMessageAsync(request.Message, historiqueTuples, ct);
 
-            var criteres = new CritereRechercheDto(
-                BudgetMax: (int?)extrait.BudgetMax,
-                NiveauSouhaite: extrait.NiveauSouhaite,
-                TypesGarantie: extrait.TypesGarantie
-            );
+            // Validation — filtre les hallucinations du LLM
+            int? niveauValide = extrait.NiveauSouhaite is >= NIVEAU_MIN and <= NIVEAU_MAX
+                ? extrait.NiveauSouhaite : null;
 
-            // Ne cherche des offres que si on a au moins un critère exploitable
+            var typesGarantieValides = (extrait.TypesGarantie ?? new List<int>())
+                .Where(t => t is >= TYPE_GARANTIE_MIN and <= TYPE_GARANTIE_MAX)
+                .Distinct()
+                .ToList();
+
+            decimal? budgetValide = extrait.BudgetMax is >= BUDGET_MIN and <= BUDGET_MAX_RAISONNABLE
+                ? extrait.BudgetMax : null;
+
+            var criteres = new CritereRechercheDto((int?)budgetValide, niveauValide, typesGarantieValides);
+
             List<OffreScoreeDto> offresScored = new();
-            if (extrait.BudgetMax is not null || extrait.NiveauSouhaite is not null || extrait.TypesGarantie.Count > 0)
+            bool assezDeCriteres = extrait.CriteresComplets
+                || (criteres.BudgetMax is not null && criteres.NiveauSouhaite is not null);
+
+            if (assezDeCriteres)
             {
                 var offres = await _offreRepository.GetActiveOffresAsync(ct);
                 offresScored = offres
@@ -52,11 +66,7 @@ namespace Comparateur.Application.Features.Comparateur.Commands
             }
 
             return new ChatRechercheResultDto(
-                extrait.ReponseAssistant,
-                extrait.CriteresComplets,
-                criteres,
-                offresScored
-            );
+                extrait.ReponseAssistant, extrait.CriteresComplets, criteres, offresScored);
         }
     }
 }

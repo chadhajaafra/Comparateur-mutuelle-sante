@@ -28,13 +28,13 @@ namespace Comparateur.Infrastructure.Services
         }
 
         public async Task<CritereRechercheExtrait> AnalyserMessageAsync(
-            string message,
-            List<(string Role, string Contenu)> historique,
-            CancellationToken ct)
+       string message,
+       List<(string Role, string Contenu)> historique,
+       CancellationToken ct)
         {
             var systemPrompt = """
-            Tu es un assistant qui aide à trouver une mutuelle santé. Tu dois extraire des critères 
-            de recherche à partir de la conversation et répondre STRICTEMENT en JSON, sans texte 
+            Tu es un assistant qui aide à trouver une mutuelle santé. Extrais des critères 
+            de recherche à partir de la conversation et réponds STRICTEMENT en JSON, sans texte 
             avant/après, sans balises markdown :
 
             {
@@ -43,8 +43,9 @@ namespace Comparateur.Infrastructure.Services
               "typesGarantie": [int] (1=SanteGenerale, 2=Dentaire, 3=Optique, 4=Hospitalisation, 5=Maternite, 6=MedecineDouces),
               "reponseAssistant": string (réponse naturelle, chaleureuse, en français, courte),
               "criteresComplets": boolean (true si budget ET niveau sont connus)
+            }
 
-            Si des infos manquent, pose une question ciblée dans "reponseAssistant" (ex: "Quel est ton budget mensuel ?").
+            Si des infos manquent, pose une question ciblée dans "reponseAssistant".
             Garde en mémoire les critères déjà donnés dans l'historique, ne les redemande pas.
             """;
 
@@ -91,11 +92,12 @@ namespace Comparateur.Infrastructure.Services
             );
         }
     }
+
     file record AssistantExtractionRaw(
-    decimal? BudgetMax,
-    int? NiveauSouhaite,
-    List<int>? TypesGarantie,
-    string? ReponseAssistant,
+        decimal? BudgetMax,
+        int? NiveauSouhaite,
+        List<int>? TypesGarantie,
+        string? ReponseAssistant,
         bool CriteresComplets
-    );    
+    );
 }
