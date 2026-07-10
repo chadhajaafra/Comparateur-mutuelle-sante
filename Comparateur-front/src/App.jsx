@@ -18,6 +18,7 @@ import ComparateurPage from './pages/comparateur/ComparateurWizard';
 import Comparaisonresultat from './pages/comparateur/Comparaisonresultat';
 import AnalyseContratPage from './pages/comparateur/AnalyseContratPage';
 import { ThemeProvider } from './context/ThemeProvider';
+import AssistantChatPage from './pages/comparateur/AssistantChatPage';
 
 
 export default function App() {
@@ -51,6 +52,7 @@ export default function App() {
                             <Route path="/comparateur" element={<ComparateurPage />} />
                                 <Route path="/comparateur/resultat" element={<Comparaisonresultat />} />
                                 <Route path="/AnalyseContratPage" element={<AnalyseContratPage />} />
+                                <Route path="/AssistantChatPage" element={<AssistantChatPage />} />
 
                             </Route>
                         </Route>
