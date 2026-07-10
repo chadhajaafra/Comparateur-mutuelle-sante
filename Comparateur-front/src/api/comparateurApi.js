@@ -30,6 +30,15 @@ const comparateurApi = {
             })
             .then(r => r.data);
     },
+    assistantChat: (message, historique) =>
+        axiosClient
+            .post('/comparateur/assistant-chat', { message, historique })
+            .then(r => r.data),
+
+    rechercherPartiel: (criteres) =>
+        axiosClient
+            .post('/comparateur/recherche-partielle', criteres)
+            .then(r => r.data),
 };
 
 export default comparateurApi;

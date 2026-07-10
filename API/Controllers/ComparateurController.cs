@@ -155,26 +155,33 @@ namespace Comparateur.API.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> AssistantChat(
         [FromBody] AssistantChatRequest request, CancellationToken ct)
+        {
+            if (string.IsNullOrWhiteSpace(request.Message))
+                return BadRequest(new { message = "Message vide." });
+
+            try
             {
-                if (string.IsNullOrWhiteSpace(request.Message))
-                    return BadRequest(new { message = "Message vide." });
-
-                try
-                {
-                    var result = await _sender.Send(
-                        new AssistantRechercheCommand(request.Message, request.Historique ?? new()), ct);
-                    return Ok(result);
-                }
-                catch (InvalidOperationException ex)
-                {
-                    return StatusCode(502, new { message = "Erreur assistant IA.", detail = ex.Message });
-                }
+                var result = await _sender.Send(
+                    new AssistantRechercheCommand(request.Message, request.Historique ?? new()), ct);
+                return Ok(result);
             }
-
-            // DTO Request séparé, comme pour AjouterOffreRequest
-            public record AssistantChatRequest(string Message, List<ChatMessageDto>? Historique);
+            catch (InvalidOperationException ex)
+            {
+                return StatusCode(502, new { message = "Erreur assistant IA.", detail = ex.Message });
+            }
         }
+
+        [HttpPost("recherche-partielle")]
+        [AllowAnonymous]
+        public async Task<IActionResult> RechercherPartielle(
+            [FromBody] CritereRechercheDto criteres, CancellationToken ct)
+        {
+            var offres = await _sender.Send(new RechercherAvecCriteresCommand(criteres), ct);
+            return Ok(offres);
+        }
+    }
     
     public record AjouterOffreRequest(Guid OffreId);
+    public record AssistantChatRequest(string Message, List<ChatMessageDto>? Historique);
 
 }

@@ -10,6 +10,8 @@ const titles = {
     "/AnalyseContratPage": "Comparateur IA",
     "/souscriptions": "Souscriptions",
     "/garanties": "Garanties",
+    "/AssistantChatPage": "Assistant Chat",
+
 };
 
 export default function Topbar() {

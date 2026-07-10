@@ -13,6 +13,7 @@ const links = [
     { to: "/mutuelles", icon: Activity, label: "Mutuelles" },
     { to: "/garanties", icon: FileText, label: "Garanties" },
     { to: "/comparateur", icon: GitCompare, label: "Comparateur" },
+    { to: "/AssistantChatPage", icon: Brain, label: "Assistant Chat" },
 
 ];
 
