@@ -14,6 +14,12 @@ namespace Comparateur.Application.Features.Offres
     decimal PrixMensuel,
     string? Description
 );
+    public record UpdateOffreRequest(
+    string Nom,
+    NiveauCouverture Niveau,
+    decimal PrixMensuel,
+    string? Description
+);
     public record OffreDto(
       Guid Id,
       string Nom,

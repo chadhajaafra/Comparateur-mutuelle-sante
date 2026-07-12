@@ -80,6 +80,7 @@ namespace Comparateur.Application.Features.Mutuelles
         string Description,
         string Logo,
         string SiteWeb,
+        bool IsActive,
         Guid RequestingUserId,
         string RequestingUserRole
     ) : IRequest<MutuelleDto>;

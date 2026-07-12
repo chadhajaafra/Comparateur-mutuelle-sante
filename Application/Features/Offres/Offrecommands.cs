@@ -104,4 +104,56 @@ namespace Comparateur.Application.Features.Offres
                 og.TauxRemboursement, og.Plafond, og.Details);
         }
     }
+        //update offre 
+        public record UpdateOffreCommand(
+         Guid Id,
+         string Nom,
+         NiveauCouverture Niveau,
+         decimal PrixMensuel,
+         string? Description,
+         Guid RequestingUserId,
+         string RequestingUserRole
+     ) : IRequest<OffreDto>;
+
+    public class UpdateOffreValidator : AbstractValidator<UpdateOffreCommand>
+    {
+        public UpdateOffreValidator()
+        {
+            RuleFor(x => x.Nom).NotEmpty().MaximumLength(200);
+            RuleFor(x => x.PrixMensuel).GreaterThan(0).LessThan(10000);
+            RuleFor(x => x.Niveau).IsInEnum();
+        }
+
+        public class UpdateOffreHandler : IRequestHandler<UpdateOffreCommand, OffreDto>
+        {
+            private readonly IOffreRepository _offreRepo;
+            private readonly IUnitOfWork _uow;
+            private readonly IMutuelleRepository _mutuelleRepo;
+
+
+            public UpdateOffreHandler(IMutuelleRepository mutuelleRepo, IOffreRepository offreRepo, IUnitOfWork uow)
+            {
+                _offreRepo = offreRepo;
+                _uow = uow;
+                _mutuelleRepo = mutuelleRepo;
+            }
+
+            public async Task<OffreDto> Handle(UpdateOffreCommand cmd, CancellationToken ct)
+            {
+                var offre = await _offreRepo.GetByIdAsync(cmd.Id, ct)
+                    ?? throw new NotFoundException(nameof(Offre), cmd.Id);
+
+                // Un assureur ne peut modifier que ses propres mutuelles
+              /* if (cmd.RequestingUserRole == "Assureur" && Mutuelle.AssureurId != cmd.RequestingUserId)
+                    throw new UnauthorizedException("Vous ne pouvez modifier que vos propres mutuelles.");*/
+
+                offre.Update(cmd.Nom, (NiveauCouverture)cmd.Niveau, (decimal)cmd.PrixMensuel, cmd.Description);
+
+                await _offreRepo.UpdateAsync(offre, ct);
+                await _uow.SaveChangesAsync(ct);
+
+                return GetOffreByIdHandler.ToDto(offre);
+            }
+        }
+    }
 }

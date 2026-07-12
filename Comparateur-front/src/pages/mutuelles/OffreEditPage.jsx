@@ -154,7 +154,7 @@ export default function OffreEditPage() {
         setSaving(true);
         setServerError(null);
         try {
-            await axiosClient.put(`/offres/${offreId}`, {
+            await axiosClient.put(`/mutuelles/${mutuelleId}/offres/${offreId}`, {
                 ...values,
                 mutuelleId: Number(mutuelleId),
             });

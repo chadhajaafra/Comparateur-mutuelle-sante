@@ -11,6 +11,8 @@ const mutuelleApi = {
         return axiosClient.post(`/mutuelles/${mutuelleId}/offres`, data);
     },
     addGarantie: (offreId, data) => axiosClient.post(`/mutuelles/offres/${offreId}/garanties`, data),
+    updateOffre: (mutuelleId, offreId, data) => axiosClient.put(`/mutuelles/${mutuelleId}/offres/${offreId}`, data),
+
 };
 
 export default mutuelleApi;

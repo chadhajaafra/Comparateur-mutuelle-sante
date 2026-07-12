@@ -21,7 +21,14 @@ namespace Comparateur.Application.Features.Mutuelles
         List<OffreDto> Offres
     );
 
-  
+    public record UpdateMutuelleRequest(
+       string Nom,
+       string Description,
+       string Logo,
+       string SiteWeb,
+       bool IsActive
+   );
+
 
     public record OffreGarantieDto(
         Guid GarantieId,

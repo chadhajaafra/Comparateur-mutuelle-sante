@@ -1,5 +1,6 @@
 ﻿using Comparateur.Application.Features.Mutuelles;
 using Comparateur.Application.Features.Offres;
+using Comparateur.Domain.Entities;
 using Comparateur.Domain.Enums;
 using Domain.Entities;
 using MediatR;
@@ -75,10 +76,20 @@ namespace Comparateur.API.Controllers
         // ── PUT api/mutuelles/{id} ─────────────────────────────────────────────
         [HttpPut("{id:guid}")]
         [Authorize(Roles = "Assureur,Administrateur")]
-        public async Task<IActionResult> Update(Guid id, UpdateMutuelleCommand command, CancellationToken ct)
-            => Ok(await _sender.Send(
-                command with { Id = id, RequestingUserId = UserId, RequestingUserRole = UserRole }, ct));
+        public async Task<IActionResult> Update(Guid id, UpdateMutuelleRequest request, CancellationToken ct)
+        {
+            var command = new UpdateMutuelleCommand(
+                id,
+                request.Nom,
+                request.Description,
+                request.Logo,
+                request.SiteWeb,
+                request.IsActive,
+                UserId,
+                UserRole);
 
+            return Ok(await _sender.Send(command, ct));
+        }
         // ── DELETE api/mutuelles/{id} ──────────────────────────────────────────
         [HttpDelete("{id:guid}")]
         [Authorize(Roles = "Assureur,Administrateur")]
@@ -106,6 +117,24 @@ namespace Comparateur.API.Controllers
             var result = await _sender.Send(command, ct);
             return Ok(result);
         }
+        // ── PUT api/offres/{OffreId} 
+        [HttpPut("{mutuelleId}/offres/{OffreId:guid}")]
+        [Authorize(Roles = "Assureur,Administrateur")]
+        public async Task<IActionResult> UpdateOffre( Guid offreId, UpdateOffreRequest request,CancellationToken ct)
+            {
+                var command = new UpdateOffreCommand(
+                    offreId,
+                    request.Nom,
+                    request.Niveau,
+                    request.PrixMensuel,
+                    request.Description,
+                    UserId,
+                    UserRole);
+
+                return Ok(await _sender.Send(command, ct));
+            }
+
+
         // ── POST api/mutuelles/offres/{offreId}/garanties ──────────────────────
         [HttpPost("offres/{offreId:guid}/garanties")]
         [Authorize(Roles = "Assureur,Administrateur")]
@@ -126,5 +155,7 @@ namespace Comparateur.API.Controllers
 
                 return Ok(await _sender.Send(command, ct));
             }
+
         }
+   
 }
