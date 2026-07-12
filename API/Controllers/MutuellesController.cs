@@ -106,6 +106,27 @@ namespace Comparateur.API.Controllers
             var result = await _sender.Send(command, ct);
             return Ok(result);
         }
+        // ── PUT api/offres/{OffreId} 
+        [HttpPut("{mutuelleId}/offres/{OffreId:guid}")]
+        [Authorize(Roles = "Assureur,Administrateur")]
+        public async Task<IActionResult> UpdateOffre(
+        Guid offreId,
+        UpdateOffreRequest request,
+        CancellationToken ct)
+            {
+                var command = new UpdateOffreCommand(
+                    offreId,
+                    request.Nom,
+                    request.Niveau,
+                    request.PrixMensuel,
+                    request.Description,
+                    UserId,
+                    UserRole);
+
+                return Ok(await _sender.Send(command, ct));
+            }
+
+
         // ── POST api/mutuelles/offres/{offreId}/garanties ──────────────────────
         [HttpPost("offres/{offreId:guid}/garanties")]
         [Authorize(Roles = "Assureur,Administrateur")]
@@ -126,5 +147,7 @@ namespace Comparateur.API.Controllers
 
                 return Ok(await _sender.Send(command, ct));
             }
+
         }
+   
 }

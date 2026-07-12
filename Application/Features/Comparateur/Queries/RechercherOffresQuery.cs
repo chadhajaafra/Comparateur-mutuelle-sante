@@ -1,4 +1,4 @@
-﻿using Comparateur.Application.Features.Comparateur.Dtos;
+﻿   using Comparateur.Application.Features.Comparateur.Dtos;
 using Comparateur.Application.Features.Comparateur.Services;
 using Comparateur.Application.Features.Mutuelles;
 using Comparateur.Domain.Entities;
@@ -17,7 +17,7 @@ namespace Comparateur.Application.Features.Comparateur.Queries
             int? NiveauSouhaite,
             List<int>? TypesGarantie,
             string? Search,
-            string? Couverture,           // ← majuscule corrigée
+            string? Couverture,         
             bool? AssureActuellement,
             string? CodePostal,
             int Page = 1,

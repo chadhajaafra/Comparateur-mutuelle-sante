@@ -1,4 +1,5 @@
-﻿using Comparateur.Application.Features.Offres;
+﻿using Comparateur.Application.Features.Mutuelles;
+using Comparateur.Application.Features.Offres;
 using Comparateur.Domain.Interfaces;
 using Domain.Entities;
 using MediatR;
@@ -49,6 +50,13 @@ namespace Comparateur.API.Controllers
                 command with { RequestingUserId = UserId, RequestingUserRole = UserRole }, ct);
             return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
         }
+        // ── PUT api/offres/{OffreId} 
+        [HttpPut("{OffreId:guid}")]
+        [Authorize(Roles = "Assureur,Administrateur")]
+        public async Task<IActionResult> Update(Guid id, UpdateOffreCommand command, CancellationToken ct)
+            => Ok(await _sender.Send(
+                command with { Id = id, RequestingUserId = UserId, RequestingUserRole = UserRole }, ct));
+
 
     }
 }
