@@ -58,13 +58,26 @@ namespace Comparateur.Application.Features.Comparateur.Commands
             if (assezDeCriteres)
             {
                 var offres = await _offreRepository.GetActiveOffresAsync(ct);
-                offresScored = offres
+
+                // ─── FILTRAGE RÉEL avant le scoring ───
+                var offresFiltrees = offres.Where(o =>
+                    (criteres.BudgetMax is null || o.PrixMensuel <= criteres.BudgetMax * 1.15m) && // tolérance 15% au-dessus du budget
+                    (criteres.NiveauSouhaite is null || (int)o.Niveau == criteres.NiveauSouhaite)
+                ).ToList();
+
+                // Fallback : si le filtre est trop strict et ne renvoie rien, on élargit
+                // plutôt que de montrer une liste vide (meilleure UX)
+                if (offresFiltrees.Count == 0)
+                    offresFiltrees = offres.Where(o =>
+                        criteres.BudgetMax is null || o.PrixMensuel <= criteres.BudgetMax * 1.3m
+                    ).ToList();
+
+                offresScored = offresFiltrees
                     .Select(o => ScoringService.MapToScored(o, criteres))
                     .OrderByDescending(o => o.ScoreTotal)
                     .Take(5)
                     .ToList();
             }
-
             return new ChatRechercheResultDto(
                 extrait.ReponseAssistant, extrait.CriteresComplets, criteres, offresScored);
         }
