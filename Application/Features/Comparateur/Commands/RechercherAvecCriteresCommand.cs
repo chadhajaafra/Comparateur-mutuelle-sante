@@ -24,7 +24,16 @@ namespace Comparateur.Application.Features.Comparateur.Commands
         public async Task<List<OffreScoreeDto>> Handle(RechercherAvecCriteresCommand request, CancellationToken ct)
         {
             var offres = await _offreRepository.GetActiveOffresAsync(ct);
-            return offres
+
+            var offresFiltrees = offres.Where(o =>
+                (request.Criteres.BudgetMax is null || o.PrixMensuel <= request.Criteres.BudgetMax * 1.15m) &&
+                (request.Criteres.NiveauSouhaite is null || (int)o.Niveau == request.Criteres.NiveauSouhaite)
+            ).ToList();
+
+            if (offresFiltrees.Count == 0)
+                offresFiltrees = (List<Domain.Entities.Offre>)offres;
+
+            return offresFiltrees
                 .Select(o => ScoringService.MapToScored(o, request.Criteres))
                 .OrderByDescending(o => o.ScoreTotal)
                 .Take(5)
