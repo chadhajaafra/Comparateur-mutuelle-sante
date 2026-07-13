@@ -17,12 +17,18 @@ import PageTransition from "../../components/ui/PageTransition";
 import Skeleton from "../../components/ui/Skeleton";
 import EmptyState from "../../components/ui/EmptyState";
 import comparateurApi from "../../api/comparateurApi";
+import { /*Wallet, Shield,*/ Layers } from "lucide-react";
 
 const SUGGESTIONS = [
     "Mutuelle famille, budget 80€/mois",
     "Bon remboursement dentaire et optique",
     "Formule Premium pour senior",
 ];
+const NIVEAU_STYLES = {
+    Eco: { bg: "rgba(100,116,139,0.1)", color: "#64748b" },
+    Standard: { bg: "rgba(124,58,237,0.1)", color: "#7c3aed" },
+    Premium: { bg: "rgba(217,119,6,0.1)", color: "#d97706" },
+};
 
 function Bubble({ role, contenu, index }) {
     const isUser = role === "user";
@@ -94,13 +100,16 @@ function TypingBubble() {
 }
 
 function OffreMiniCard({ offre, index }) {
+    const niveauStyle = NIVEAU_STYLES[offre.niveauLabel] || NIVEAU_STYLES.Standard;
+
     return (
         <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: index * 0.06 }}
         >
-            <Card className="p-4">
+            <Card className="p-4 sm:p-5">
+                {/* HEADER */}
                 <div className="flex items-start justify-between gap-3">
                     <div className="min-w-0">
                         <p className="font-semibold text-slate-900 dark:text-white truncate">
@@ -125,16 +134,44 @@ function OffreMiniCard({ offre, index }) {
                     </div>
                 </div>
 
-                <div className="flex items-center gap-4 mt-3 text-xs text-slate-500 dark:text-slate-400">
-                    <span className="flex items-center gap-1">
-                        <Wallet size={12} />
-                        {offre.prixMensuel}€/mois
+                {/* PRIX + NIVEAU */}
+                <div className="flex items-center gap-2 mt-3 flex-wrap">
+                    <span className="flex items-center gap-1 text-sm font-semibold text-slate-900 dark:text-white">
+                        <Wallet size={13} className="text-slate-400" />
+                        {offre.prixMensuel}€
+                        <span className="text-xs font-normal text-slate-400">/mois</span>
                     </span>
-                    <span className="flex items-center gap-1">
-                        <Shield size={12} />
-                        {offre.garanties?.length ?? 0} garanties
+
+                    <span
+                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-medium"
+                        style={{ background: niveauStyle.bg, color: niveauStyle.color }}
+                    >
+                        <Layers size={11} />
+                        {offre.niveauLabel}
                     </span>
                 </div>
+
+                {/* GARANTIES */}
+                {offre.garanties?.length > 0 && (
+                    <div className="flex flex-wrap gap-1.5 mt-4 pt-4 border-t border-slate-100 dark:border-slate-800">
+                        {offre.garanties.map((g) => (
+                            <span
+                                key={g.garantieId}
+                                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-medium"
+                                style={{
+                                    background: g.matchCritere
+                                        ? "rgba(124,58,237,0.08)"
+                                        : "rgba(148,163,184,0.1)",
+                                    color: g.matchCritere ? "#7c3aed" : "#64748b",
+                                }}
+                            >
+                                <Shield size={10} />
+                                {g.nom}
+                                {g.tauxRemboursement ? ` ${g.tauxRemboursement}%` : ""}
+                            </span>
+                        ))}
+                    </div>
+                )}
             </Card>
         </motion.div>
     );
