@@ -12,9 +12,9 @@ import MutuelleFormPage from './pages/mutuelles/MutuelleFormPage';
 import OffreFormPage from './pages/mutuelles/OffreFormPage';
 import AddGarantieToOffre from './pages/mutuelles/AddGarantieToOffre';
 import CatalogueGarantiesPage from './pages/mutuelles/CatalogueGarantiesPage';
-import MutuelleEditPage from './pages/mutuelles/MutuelleEditPage';  
-import OffreEditPage from './pages/mutuelles/OffreEditPage';  
-import ComparateurPage from './pages/comparateur/ComparateurWizard';
+import MutuelleEditPage from './pages/mutuelles/MutuelleEditPage';
+import OffreEditPage from './pages/mutuelles/OffreEditPage';
+import ComparateurWizard from './pages/comparateur/ComparateurWizard';
 import Comparaisonresultat from './pages/comparateur/Comparaisonresultat';
 import AnalyseContratPage from './pages/comparateur/AnalyseContratPage';
 import { ThemeProvider } from './context/ThemeProvider';
@@ -27,41 +27,41 @@ export default function App() {
             <BrowserRouter>
                 <AuthProvider>
                     <Routes>
-                        {/* Routes publiques */}
+                        {/* ─── ROUTES AUTH ─── */}
                         <Route path="/login" element={<LoginPage />} />
                         <Route path="/register" element={<RegisterPage />} />
                         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
                         <Route path="/reset-password" element={<ResetPasswordPage />} />
 
-                    {/* Routes protégées avec layout */}
-                    <Route element={<ProtectedRoute />}>
-                        <Route element={<AppLayout />}>
-                            <Route path="/dashboard" element={<DashboardPage />} />
-                            <Route path="/mutuelles" element={<MutuellesPage />} />
-                            <Route path="/mutuelles/:id" element={<MutuelleDetailPage />} />
-                            <Route path="/mutuelles/nouvelle" element={<MutuelleFormPage />} />
-                            <Route path="/mutuelles/:id/offres/nouvelle" element={<OffreFormPage />} />
-                            <Route path="/mutuelles/:id/modifier" element={<MutuelleEditPage />} />
-                            <Route path="/mutuelles/:mutuelleId/offres/:offreId/garanties/nouvelle" element={<AddGarantieToOffre />} />
-                            <Route path="/mutuelles/:mutuelleId/offres/:offreId/modifier" element={<OffreEditPage />} />
-                            <Route path="/garanties" element={<CatalogueGarantiesPage />} />
-                            <Route path="/utilisateurs" element={<div className="page-title">Utilisateurs — à venir</div>} />
-                            <Route path="/devis" element={<div className="page-title">Devis — à venir</div>} />
-                            <Route path="/souscriptions" element={<div className="page-title">Souscriptions — à venir</div>} />
-                            <Route path="/parametres" element={<div className="page-title">Paramètres — à venir</div>} />
-                            <Route path="/comparateur" element={<ComparateurPage />} />
-                                <Route path="/comparateur/resultat" element={<Comparaisonresultat />} />
-                                <Route path="/AnalyseContratPage" element={<AnalyseContratPage />} />
-                                <Route path="/AssistantChatPage" element={<AssistantChatPage />} />
-                                <Route path="/ComparateurLandingPage" element={<ComparateurLandingPage />} />
+                        {/* ─── MODULE COMPARATEUR — PUBLIC, sans sidebar admin, sans connexion ─── */}
+                        <Route path="/comparateur" element={<ComparateurLandingPage />} />
+                        <Route path="/comparateur/wizard" element={<ComparateurWizard />} />
+                        <Route path="/comparateur/assistant" element={<AssistantChatPage />} />
+                        <Route path="/comparateur/analyse-contrat" element={<AnalyseContratPage />} />
+                        <Route path="/comparateur/resultat" element={<Comparaisonresultat />} />
 
-
+                        {/* ─── ROUTES PROTEGEES — sidebar admin, connexion requise ─── */}
+                        <Route element={<ProtectedRoute />}>
+                            <Route element={<AppLayout />}>
+                                <Route path="/dashboard" element={<DashboardPage />} />
+                                <Route path="/mutuelles" element={<MutuellesPage />} />
+                                <Route path="/mutuelles/:id" element={<MutuelleDetailPage />} />
+                                <Route path="/mutuelles/nouvelle" element={<MutuelleFormPage />} />
+                                <Route path="/mutuelles/:id/offres/nouvelle" element={<OffreFormPage />} />
+                                <Route path="/mutuelles/:id/modifier" element={<MutuelleEditPage />} />
+                                <Route path="/mutuelles/:mutuelleId/offres/:offreId/garanties/nouvelle" element={<AddGarantieToOffre />} />
+                                <Route path="/mutuelles/:mutuelleId/offres/:offreId/modifier" element={<OffreEditPage />} />
+                                <Route path="/garanties" element={<CatalogueGarantiesPage />} />
+                                <Route path="/utilisateurs" element={<div className="page-title">Utilisateurs — à venir</div>} />
+                                <Route path="/devis" element={<div className="page-title">Devis — à venir</div>} />
+                                <Route path="/souscriptions" element={<div className="page-title">Souscriptions — à venir</div>} />
+                                <Route path="/parametres" element={<div className="page-title">Paramètres — à venir</div>} />
                             </Route>
                         </Route>
 
-                    <Route path="/" element={<Navigate to="/login" replace />} />
-                    <Route path="*" element={<Navigate to="/login" replace />} />
-                </Routes>
+                        <Route path="/" element={<Navigate to="/comparateur" replace />} />
+                        <Route path="*" element={<Navigate to="/comparateur" replace />} />
+                    </Routes>
                 </AuthProvider>
             </BrowserRouter>
         </ThemeProvider>
