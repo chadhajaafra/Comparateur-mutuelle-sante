@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthProvider';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import AppLayout from './components/layout/AppLayout';
+import PublicLayout from './components/layout/PublicLayout';
 import LoginPage from './pages/auth/LoginPage';
 import RegisterPage from './pages/auth/RegisterPage';
 import { ForgotPasswordPage, ResetPasswordPage } from './pages/auth/PasswordPages';
@@ -33,12 +34,13 @@ export default function App() {
                         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
                         <Route path="/reset-password" element={<ResetPasswordPage />} />
 
-                        {/* ─── MODULE COMPARATEUR — PUBLIC, sans sidebar admin, sans connexion ─── */}
-                        <Route path="/comparateur" element={<ComparateurLandingPage />} />
-                        <Route path="/comparateur/wizard" element={<ComparateurWizard />} />
-                        <Route path="/comparateur/assistant" element={<AssistantChatPage />} />
-                        <Route path="/comparateur/analyse-contrat" element={<AnalyseContratPage />} />
-                        <Route path="/comparateur/resultat" element={<Comparaisonresultat />} />
+                        <Route element={<PublicLayout />}>
+                            <Route path="/comparateur" element={<ComparateurLandingPage />} />
+                            <Route path="/comparateur/wizard" element={<ComparateurWizard />} />
+                            <Route path="/comparateur/assistant" element={<AssistantChatPage />} />
+                            <Route path="/comparateur/analyse-contrat" element={<AnalyseContratPage />} />
+                            <Route path="/comparateur/resultat" element={<Comparaisonresultat />} />
+                        </Route>
 
                         {/* ─── ROUTES PROTEGEES — sidebar admin, connexion requise ─── */}
                         <Route element={<ProtectedRoute />}>
