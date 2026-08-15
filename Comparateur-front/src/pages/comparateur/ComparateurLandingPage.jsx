@@ -1,20 +1,20 @@
 // src/pages/comparateur/ComparateurLandingPage.jsx
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
 import {
-    Sparkles,
-    MessageCircle,
+    ArrowRight,
     FileText,
     ListChecks,
+    MessageCircle,
     ShieldCheck,
-    Zap,
-    ArrowRight,
-    Users,
+    Sparkles,
     TrendingUp,
+    Users,
+    Zap,
 } from "lucide-react";
-import Card from "../../components/ui/Card";
-import Button from "../../components/ui/Button";
+import { useNavigate } from "react-router-dom";
 import Badge from "../../components/ui/Badge";
+import Button from "../../components/ui/Button";
+import Card from "../../components/ui/Card";
 import PageTransition from "../../components/ui/PageTransition";
 
 const METHODES = [
