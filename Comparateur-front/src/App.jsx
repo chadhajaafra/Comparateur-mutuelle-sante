@@ -15,7 +15,7 @@ import AddGarantieToOffre from './pages/mutuelles/AddGarantieToOffre';
 import CatalogueGarantiesPage from './pages/mutuelles/CatalogueGarantiesPage';
 import MutuelleEditPage from './pages/mutuelles/MutuelleEditPage';
 import OffreEditPage from './pages/mutuelles/OffreEditPage';
-import ComparateurWizard from './pages/comparateur/ComparateurWizard';
+import ComparateurWizardPage from './pages/comparateur/ComparateurWizardPage';
 import Comparaisonresultat from './pages/comparateur/Comparaisonresultat';
 import AnalyseContratPage from './pages/comparateur/AnalyseContratPage';
 import { ThemeProvider } from './context/ThemeProvider';
@@ -36,7 +36,7 @@ export default function App() {
 
                         <Route element={<PublicLayout />}>
                             <Route path="/comparateur" element={<ComparateurLandingPage />} />
-                            <Route path="/comparateur/wizard" element={<ComparateurWizard />} />
+                            <Route path="/comparateur/wizard" element={<ComparateurWizardPage />} />
                             <Route path="/comparateur/assistant" element={<AssistantChatPage />} />
                             <Route path="/comparateur/analyse-contrat" element={<AnalyseContratPage />} />
                             <Route path="/comparateur/resultat" element={<Comparaisonresultat />} />
