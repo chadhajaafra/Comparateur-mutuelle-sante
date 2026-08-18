@@ -29,6 +29,7 @@ export default function App() {
                 <AuthProvider>
                     <Routes>
                         {/* ─── ROUTES AUTH ─── */}
+                        <Route path="/comparateur" element={<ComparateurLandingPage />} />
                         <Route path="/login" element={<LoginPage />} />
                         <Route path="/register" element={<RegisterPage />} />
                         <Route path="/forgot-password" element={<ForgotPasswordPage />} />

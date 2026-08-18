@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+ï»¿import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useNavigate, useParams } from "react-router-dom";
@@ -43,7 +43,7 @@ export default function OffreFormPage() {
             navigate(`/mutuelles/${id}`);
         } catch (e) {
             alert(
-                e.response?.data?.title || "Erreur lors de la création de l'offre"
+                e.response?.data?.title || "Erreur lors de la crÃ©ation de l'offre"
             );
         }
     };
@@ -62,7 +62,7 @@ export default function OffreFormPage() {
         "
             >
                 <ArrowLeft size={16} />
-                Retour à la mutuelle
+                Retour Ã  la mutuelle
             </button>
 
             {/* CARD */}
@@ -139,7 +139,7 @@ export default function OffreFormPage() {
                     {/* PRIX */}
                     <div>
                         <label className="text-sm text-slate-600 dark:text-slate-300">
-                            Prix mensuel (€)
+                            Prix mensuel (â‚¬)
                         </label>
 
                         <div className="relative mt-1">
@@ -165,7 +165,7 @@ export default function OffreFormPage() {
                             />
 
                             <span className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">
-                                €
+                                â‚¬
                             </span>
                         </div>
 
@@ -185,7 +185,7 @@ export default function OffreFormPage() {
 
                         <textarea
                             rows={3}
-                            placeholder="Décrivez cette offre..."
+                            placeholder="DÃ©crivez cette offre..."
                             className="
                 w-full mt-1
                 px-3 py-2
@@ -218,7 +218,7 @@ export default function OffreFormPage() {
                             loading={isSubmitting}
                             className="flex-1"
                         >
-                            Créer l'offre
+                            CrÃ©er l'offre
                         </Button>
                     </div>
                 </form>

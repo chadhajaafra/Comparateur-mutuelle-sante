@@ -1,5 +1,6 @@
 ﻿
 import { motion } from "framer-motion";
+import PageHeader from "../../components/ui/PageHeader";
 import {
     ArrowRight,
     Bot,
@@ -444,6 +445,8 @@ export default function ComparateurLandingPage() {
     return (
         <PageTransition>
             <div className="relative min-h-screen bg-white dark:bg-slate-950 overflow-hidden">
+                <PageHeader />
+
                 <AnimatedBackground />
 
                 <div className="relative max-w-6xl mx-auto px-4 sm:px-6">

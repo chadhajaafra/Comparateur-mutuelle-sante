@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+ï»¿import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useNavigate } from "react-router-dom";
@@ -35,7 +35,7 @@ export default function MutuelleFormPage() {
 
             navigate(`/mutuelles/${res.data.id}`);
         } catch (e) {
-            alert(e.response?.data?.title || "Erreur lors de la création");
+            alert(e.response?.data?.title || "Erreur lors de la crÃ©ation");
         }
     };
 
@@ -73,7 +73,7 @@ export default function MutuelleFormPage() {
                 </h2>
 
                 <p className="text-sm text-slate-500 dark:text-slate-400 mb-6">
-                    Créez une nouvelle mutuelle dans votre système
+                    CrÃ©ez une nouvelle mutuelle dans votre systÃ¨me
                 </p>
 
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
@@ -81,7 +81,7 @@ export default function MutuelleFormPage() {
                     {/* NOM */}
                     <Input
                         label="Nom de la mutuelle"
-                        placeholder="ex: Harmonie Santé"
+                        placeholder="ex: Harmonie SantÃ©"
                         error={errors.nom?.message}
                         {...register("nom")}
                     />
@@ -94,7 +94,7 @@ export default function MutuelleFormPage() {
 
                         <textarea
                             rows={4}
-                            placeholder="Décrivez la mutuelle..."
+                            placeholder="DÃ©crivez la mutuelle..."
                             className="
                                 w-full mt-1
                                 px-3 py-2
@@ -150,7 +150,7 @@ export default function MutuelleFormPage() {
                             loading={isSubmitting}
                             className="flex-1"
                         >
-                            Créer la mutuelle
+                            CrÃ©er la mutuelle
                         </Button>
 
                     </div>
