@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+ï»¿import { useNavigate } from "react-router-dom";
 import { Pencil, Trash2, Plus } from "lucide-react";
 
 import Card from "../ui/Card";
@@ -18,12 +18,12 @@ const niveauVariants = {
 };
 
 const typeLabels = {
-    SanteGenerale: "Santé générale",
+    SanteGenerale: "SantÃ© gÃ©nÃ©rale",
     Dentaire: "Dentaire",
     Optique: "Optique",
     Hospitalisation: "Hospitalisation",
-    Maternite: "Maternité",
-    MedecineDouces: "Médecines douces",
+    Maternite: "MaternitÃ©",
+    MedecineDouces: "MÃ©decines douces",
 };
 
 export default function OffreCard({
@@ -87,7 +87,7 @@ export default function OffreCard({
                                 text-violet-600
                             "
                         >
-                            {offre.prixMensuel}€
+                            {offre.prixMensuel}â‚¬
                         </p>
 
                         <p

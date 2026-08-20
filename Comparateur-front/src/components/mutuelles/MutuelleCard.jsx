@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+ï»¿import { useNavigate } from "react-router-dom";
 import { Trash2 } from "lucide-react";
 
 import Card from "../ui/Card";
@@ -11,12 +11,12 @@ const niveauLabels = {
 };
 
 const typeLabels = {
-    SanteGenerale: "Santé",
+    SanteGenerale: "SantÃ©",
     Dentaire: "Dentaire",
     Optique: "Optique",
     Hospitalisation: "Hospitalisation",
-    Maternite: "Maternité",
-    MedecineDouces: "Médecines douces",
+    Maternite: "MaternitÃ©",
+    MedecineDouces: "MÃ©decines douces",
 };
 
 export default function MutuelleCard({ mutuelle, onDelete, canEdit }) {
@@ -95,8 +95,8 @@ export default function MutuelleCard({ mutuelle, onDelete, canEdit }) {
 
                     <div className="text-3xl font-bold text-slate-900 dark:text-white">
                         {prixMin === prixMax
-                            ? `${prixMin}€`
-                            : `${prixMin}€ - ${prixMax}€`}
+                            ? `${prixMin}â‚¬`
+                            : `${prixMin}â‚¬ - ${prixMax}â‚¬`}
                     </div>
 
                     <div className="text-xs text-slate-500 dark:text-slate-400">
