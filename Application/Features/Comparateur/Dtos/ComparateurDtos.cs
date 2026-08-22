@@ -52,4 +52,10 @@ namespace Comparateur.Application.Features.Comparateur.Dtos
         );
 
         public record PersonneSuppDto(string DateNaissance);
-    }
+        public class AiUsageTracker
+        {
+            public string SessionToken { get; set; }
+            public int RequestCount { get; set; }
+            public DateTime LastReset { get; set; }
+        }
+}
